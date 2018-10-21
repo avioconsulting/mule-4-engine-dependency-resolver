@@ -54,7 +54,10 @@ class DepResolverMojoTest {
                                     [artifact1])
         def artifacts = [
                 artifact1,
-                artifact2
+                artifact2,
+                getArtifact('artifact3',
+                            'test',
+                            [])
         ].toSet()
 
         // act

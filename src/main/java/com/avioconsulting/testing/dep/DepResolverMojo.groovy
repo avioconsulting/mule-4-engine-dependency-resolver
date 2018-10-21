@@ -23,6 +23,9 @@ class DepResolverMojo extends
         def dependencyQueue = [:]
         def nameWithClassifierAndTypeToSimpleMapping = [:]
         artifacts.each { artifact ->
+            if (artifact.scope == 'test') {
+                return
+            }
             def ourKey = getKey(artifact)
             def depTrail = artifact.dependencyTrail
             // root parent + ourselves are first and last
@@ -43,6 +46,7 @@ class DepResolverMojo extends
         }
         dependencyQueue.each { artifact, deps ->
             def keyToLookup = nameWithClassifierAndTypeToSimpleMapping[artifact]
+            assert keyToLookup : "Unable to lookup ${artifact}!"
             def resultForItem = results[keyToLookup]
             resultForItem['dependencies'] = deps
         }
