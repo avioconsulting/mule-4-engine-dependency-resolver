@@ -20,7 +20,7 @@ class DepResolverMojo extends
     @Parameter(required = true, defaultValue = 'dependencies.json')
     private File outputJsonFile
 
-    @Parameter(required = true)
+    @Parameter(required = true, property = 'resolve.dependencies')
     private List<String> requestedDependencies
 
     @Component
@@ -29,7 +29,7 @@ class DepResolverMojo extends
     @Parameter(defaultValue = '${localRepository}')
     ArtifactRepository repository
 
-    Map<String, Dependency> getDependencyMap(Set<Artifact> artifacts) {
+    Map<String, CompleteArtifact> getDependencyMap(Set<Artifact> artifacts) {
         def results = [:]
         def dependencyQueue = [:]
         def nameWithClassifierAndTypeToSimpleMapping = [:]
@@ -64,8 +64,8 @@ class DepResolverMojo extends
         }.collectEntries { key, value ->
             [
                     key,
-                    Dependency.parse(key,
-                                     value)
+                    CompleteArtifact.parse(key,
+                                           value)
             ]
         }
     }
@@ -74,23 +74,24 @@ class DepResolverMojo extends
         "${artifact.groupId}:${artifact.artifactId}:${artifact.version}"
     }
 
-    List<String> resolveDependencies(Map<String, Dependency> dependencyGraph,
-                                     List<String> desiredDependencies,
-                                     String repoPath) {
+    List<SimpleArtifact> resolveDependencies(Map<String, CompleteArtifact> dependencyGraph,
+                                             List<String> desiredDependencies,
+                                             String repoPath) {
         def repo = new File(repoPath).toPath()
         desiredDependencies.collect { desiredDependency ->
             def list = flattenDependencies(desiredDependency,
                                            dependencyGraph)
             list.collect { dep ->
-                repo.relativize(new File(dep.filename).toPath()).toString()
+                SimpleArtifact.fromComplete(dep,
+                                            repo)
             }
         }.flatten().unique()
     }
 
-    private List<Dependency> flattenDependencies(String key,
-                                                 Map<String, Dependency> dependencyGraph,
-                                                 Map<String, Dependency> totals = [:],
-                                                 boolean recurse = false) {
+    private List<CompleteArtifact> flattenDependencies(String key,
+                                                       Map<String, CompleteArtifact> dependencyGraph,
+                                                       Map<String, CompleteArtifact> totals = [:],
+                                                       boolean recurse = false) {
         def root = dependencyGraph[key]
         assert root: "Unable to find expected key ${key} in ${dependencyGraph}"
         totals[key] = root
@@ -107,9 +108,12 @@ class DepResolverMojo extends
 
     @Override
     void execute() throws MojoExecutionException, MojoFailureException {
-        log.info "Figuring out dependencies ${repository.basedir}"
-        def result = getDependencyMap(mavenProject.artifacts)
-        def asJson = JsonOutput.prettyPrint(JsonOutput.toJson(result))
+        log.info "Figuring out dependencies for ${this.requestedDependencies}"
+        def dependencyGraph = getDependencyMap(mavenProject.artifacts)
+        def resolved = resolveDependencies(dependencyGraph,
+                                           this.requestedDependencies,
+                                           this.repository.basedir)
+        def asJson = JsonOutput.prettyPrint(JsonOutput.toJson(resolved))
         log.info "Done, now writing JSON to ${outputJsonFile}"
         this.outputJsonFile.write(asJson)
     }

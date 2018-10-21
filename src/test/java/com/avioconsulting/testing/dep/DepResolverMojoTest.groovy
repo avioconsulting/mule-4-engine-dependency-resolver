@@ -66,20 +66,20 @@ class DepResolverMojoTest {
         // assert
         assertThat result,
                    is(equalTo([
-                           'some.group:artifact1:1.0.0': new Dependency('some.group:artifact1:1.0.0',
-                                                                        'artifact1',
-                                                                        'some.group',
-                                                                        '1.0.0',
-                                                                        '/some/path/artifact1-1.0.0.jar',
-                                                                        'compile',
-                                                                        ['some.group:artifact2:1.0.0']),
-                           'some.group:artifact2:1.0.0': new Dependency('some.group:artifact2:1.0.0',
-                                                                        'artifact2',
-                                                                        'some.group',
-                                                                        '1.0.0',
-                                                                        '/some/path/artifact2-1.0.0.jar',
-                                                                        'compile',
-                                                                        [])
+                           'some.group:artifact1:1.0.0': new CompleteArtifact('some.group:artifact1:1.0.0',
+                                                                              'some.group',
+                                                                              'artifact1',
+                                                                              '1.0.0',
+                                                                              '/some/path/artifact1-1.0.0.jar',
+                                                                              'compile',
+                                                                              ['some.group:artifact2:1.0.0']),
+                           'some.group:artifact2:1.0.0': new CompleteArtifact('some.group:artifact2:1.0.0',
+                                                                              'some.group',
+                                                                              'artifact2',
+                                                                              '1.0.0',
+                                                                              '/some/path/artifact2-1.0.0.jar',
+                                                                              'compile',
+                                                                              [])
                    ]))
     }
 
@@ -88,20 +88,20 @@ class DepResolverMojoTest {
         // arrange
         def mojo = new DepResolverMojo()
         def input = [
-                'some.group:artifact1:1.0.0': new Dependency('some.group:artifact1:1.0.0',
-                                                             'artifact1',
-                                                             'some.group',
-                                                             '1.0.0',
-                                                             '/some/path/artifact1-1.0.0.jar',
-                                                             'compile',
-                                                             ['some.group:artifact2:1.0.0']),
-                'some.group:artifact2:1.0.0': new Dependency('some.group:artifact2:1.0.0',
-                                                             'artifact2',
-                                                             'some.group',
-                                                             '1.0.0',
-                                                             '/some/path/artifact2-1.0.0.jar',
-                                                             'compile',
-                                                             [])
+                'some.group:artifact1:1.0.0': new CompleteArtifact('some.group:artifact1:1.0.0',
+                                                                   'some.group',
+                                                                   'artifact1',
+                                                                   '1.0.0',
+                                                                   '/some/path/artifact1-1.0.0.jar',
+                                                                   'compile',
+                                                                   ['some.group:artifact2:1.0.0']),
+                'some.group:artifact2:1.0.0': new CompleteArtifact('some.group:artifact2:1.0.0',
+                                                                   'some.group',
+                                                                   'artifact2',
+                                                                   '1.0.0',
+                                                                   '/some/path/artifact2-1.0.0.jar',
+                                                                   'compile',
+                                                                   [])
         ]
 
         // act
@@ -111,7 +111,14 @@ class DepResolverMojoTest {
 
         // assert
         assertThat result,
-                   is(equalTo(['artifact2-1.0.0.jar']))
+                   is(equalTo([
+                           new SimpleArtifact('some.group:artifact2:1.0.0',
+                                              'some.group',
+                                              'artifact2',
+                                              '1.0.0',
+                                              'artifact2-1.0.0.jar',
+                                              'compile')
+                   ]))
     }
 
     @Test
@@ -119,20 +126,20 @@ class DepResolverMojoTest {
         // arrange
         def mojo = new DepResolverMojo()
         def input = [
-                'some.group:artifact1:1.0.0': new Dependency('some.group:artifact1:1.0.0',
-                                                             'artifact1',
-                                                             'some.group',
-                                                             '1.0.0',
-                                                             '/some/path/artifact1-1.0.0.jar',
-                                                             'compile',
-                                                             ['some.group:artifact2:1.0.0']),
-                'some.group:artifact2:1.0.0': new Dependency('some.group:artifact2:1.0.0',
-                                                             'artifact2',
-                                                             'some.group',
-                                                             '1.0.0',
-                                                             '/some/path/artifact2-1.0.0.jar',
-                                                             'compile',
-                                                             [])
+                'some.group:artifact1:1.0.0': new CompleteArtifact('some.group:artifact1:1.0.0',
+                                                                   'some.group',
+                                                                   'artifact1',
+                                                                   '1.0.0',
+                                                                   '/some/path/artifact1-1.0.0.jar',
+                                                                   'compile',
+                                                                   ['some.group:artifact2:1.0.0']),
+                'some.group:artifact2:1.0.0': new CompleteArtifact('some.group:artifact2:1.0.0',
+                                                                   'some.group',
+                                                                   'artifact2',
+                                                                   '1.0.0',
+                                                                   '/some/path/artifact2-1.0.0.jar',
+                                                                   'compile',
+                                                                   [])
         ]
 
         // act
@@ -143,8 +150,18 @@ class DepResolverMojoTest {
         // assert
         assertThat result,
                    is(equalTo([
-                           'artifact1-1.0.0.jar',
-                           'artifact2-1.0.0.jar'
+                           new SimpleArtifact('some.group:artifact1:1.0.0',
+                                              'some.group',
+                                              'artifact1',
+                                              '1.0.0',
+                                              'artifact1-1.0.0.jar',
+                                              'compile'),
+                           new SimpleArtifact('some.group:artifact2:1.0.0',
+                                              'some.group',
+                                              'artifact2',
+                                              '1.0.0',
+                                              'artifact2-1.0.0.jar',
+                                              'compile')
                    ]))
     }
 
@@ -153,42 +170,56 @@ class DepResolverMojoTest {
         // arrange
         def mojo = new DepResolverMojo()
         def input = [
-                'some.group:artifact1:1.0.0': new Dependency('some.group:artifact1:1.0.0',
-                                                             'artifact1',
-                                                             'some.group',
-                                                             '1.0.0',
-                                                             '/some/path/artifact1-1.0.0.jar',
-                                                             'compile',
-                                                             ['some.group:artifact2:1.0.0',
-                                                              'some.group:artifact3:1.0.0']),
-                'some.group:artifact2:1.0.0': new Dependency('some.group:artifact2:1.0.0',
-                                                             'artifact2',
-                                                             'some.group',
-                                                             '1.0.0',
-                                                             '/some/path/artifact2-1.0.0.jar',
-                                                             'compile',
-                                                             ['some.group:artifact3:1.0.0']),
-                'some.group:artifact3:1.0.0': new Dependency('some.group:artifact3:1.0.0',
-                                                             'artifact3',
-                                                             'some.group',
-                                                             '1.0.0',
-                                                             '/some/path/artifact3-1.0.0.jar',
-                                                             'compile',
-                                                             [])
+                'some.group:artifact1:1.0.0': new CompleteArtifact('some.group:artifact1:1.0.0',
+                                                                   'some.group',
+                                                                   'artifact1',
+                                                                   '1.0.0',
+                                                                   '/some/path/artifact1-1.0.0.jar',
+                                                                   'compile',
+                                                                   ['some.group:artifact2:1.0.0',
+                                                                    'some.group:artifact3:1.0.0']),
+                'some.group:artifact2:1.0.0': new CompleteArtifact('some.group:artifact2:1.0.0',
+                                                                   'some.group',
+                                                                   'artifact2',
+                                                                   '1.0.0',
+                                                                   '/some/path/artifact2-1.0.0.jar',
+                                                                   'compile',
+                                                                   ['some.group:artifact3:1.0.0']),
+                'some.group:artifact3:1.0.0': new CompleteArtifact('some.group:artifact3:1.0.0',
+                                                                   'some.group',
+                                                                   'artifact3',
+                                                                   '1.0.0',
+                                                                   '/some/path/artifact3-1.0.0.jar',
+                                                                   'compile',
+                                                                   [])
         ]
 
         // act
         def result = mojo.resolveDependencies(input,
                                               ['some.group:artifact1:1.0.0',
-                                                    'some.group:artifact2:1.0.0'],
+                                               'some.group:artifact2:1.0.0'],
                                               '/some/path')
 
         // assert
-        assertThat result,
-                   is(equalTo([
-                           'artifact1-1.0.0.jar',
-                           'artifact2-1.0.0.jar',
-                           'artifact3-1.0.0.jar'
-                   ]))
+        is(equalTo([
+                new SimpleArtifact('some.group:artifact1:1.0.0',
+                                   'some.group',
+                                   'artifact1',
+                                   '1.0.0',
+                                   'artifact1-1.0.0.jar',
+                                   'compile'),
+                new SimpleArtifact('some.group:artifact2:1.0.0',
+                                   'some.group',
+                                   'artifact2',
+                                   '1.0.0',
+                                   'artifact2-1.0.0.jar',
+                                   'compile'),
+                new SimpleArtifact('some.group:artifact3:1.0.0',
+                                   'some.group',
+                                   'artifact3',
+                                   '1.0.0',
+                                   'artifact3-1.0.0.jar',
+                                   'compile')
+        ]))
     }
 }
