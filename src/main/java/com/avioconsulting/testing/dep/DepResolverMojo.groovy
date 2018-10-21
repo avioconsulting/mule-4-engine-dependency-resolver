@@ -44,29 +44,28 @@ class DepResolverMojo extends
             }
             def nameWithoutScope = artifact.toString().replace(":${artifact.scope}", '')
             nameWithClassifierAndTypeToSimpleMapping[nameWithoutScope] = ourKey
-            results[ourKey] = [
-                    groupId     : artifact.groupId,
-                    artifactId  : artifact.artifactId,
-                    version     : artifact.version,
-                    filename    : artifact.file.absolutePath,
-                    scope       : artifact.scope,
-                    dependencies: []
-            ]
+            results[ourKey] = new CompleteArtifact(ourKey,
+                                                   artifact.groupId,
+                                                   artifact.artifactId,
+                                                   artifact.version,
+                                                   artifact.file.absolutePath,
+                                                   artifact.scope,
+                                                   [])
         }
         dependencyQueue.each { artifact, deps ->
             def keyToLookup = nameWithClassifierAndTypeToSimpleMapping[artifact]
             assert keyToLookup: "Unable to lookup ${artifact}!"
-            def resultForItem = results[keyToLookup]
-            resultForItem['dependencies'] = deps
+            def resultForItem = results[keyToLookup] as CompleteArtifact
+            results[keyToLookup] = new CompleteArtifact(resultForItem.name,
+                                                        resultForItem.groupId,
+                                                        resultForItem.artifactId,
+                                                        resultForItem.version,
+                                                        resultForItem.filename,
+                                                        resultForItem.scope,
+                                                        deps)
         }
         results.findAll { key, value ->
             value['scope'] != 'test'
-        }.collectEntries { key, value ->
-            [
-                    key,
-                    CompleteArtifact.parse(key,
-                                           value)
-            ]
         }
     }
 
