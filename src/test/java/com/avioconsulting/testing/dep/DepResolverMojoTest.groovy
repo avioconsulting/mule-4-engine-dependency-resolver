@@ -32,6 +32,10 @@ class DepResolverMojoTest {
             otherDeps.add(0, parent.toString())
             // we are always last
             otherDeps.add(it.toString())
+            // deps seem to not have scopes
+            otherDeps = otherDeps.collect {d ->
+                d.replace(':compile', '')
+            }
             it.dependencyTrail = otherDeps
             it
         }
@@ -57,18 +61,16 @@ class DepResolverMojoTest {
         // assert
         assertThat result,
                    is(equalTo([
-                           [
+                           'some.group:artifact1:1.0.0': [
                                    groupId     : 'some.group',
                                    artifactId  : 'artifact1',
                                    version     : '1.0.0',
                                    filename    : 'artifact1-1.0.0.jar',
                                    dependencies: [
-                                           groupId   : 'some.group',
-                                           artifactId: 'artifact2',
-                                           version   : '1.0.0'
+                                           'some.group:artifact2:1.0.0'
                                    ]
                            ],
-                           [
+                           'some.group:artifact2:1.0.0': [
                                    groupId     : 'some.group',
                                    artifactId  : 'artifact2',
                                    version     : '1.0.0',

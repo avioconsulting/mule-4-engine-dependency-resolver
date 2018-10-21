@@ -17,11 +17,13 @@ class DepResolverMojo extends
     @Component
     private MavenProject mavenProject
 
-    List<Map> getDependencyMap(Set<Artifact> artifacts) {
-        artifacts.each { a ->
-            println "artifact ${a.artifactId} file ${a.file} - deps - ${a.getDependencyTrail()} - tostring ${a.toString()} scope - ${a.scope}"
+    Map getDependencyMap(Set<Artifact> artifacts) {
+        artifacts.inject([:]) { map, artifact ->
+            map
         }
-        []
+//        artifacts.each { a ->
+//            println "artifact ${a.artifactId} file ${a.file} - deps - ${a.getDependencyTrail()} - tostring ${a.toString()} scope - ${a.scope}"
+//        }
     }
 
     @Override
