@@ -84,7 +84,7 @@ class DepResolverMojoTest {
     }
 
     @Test
-    void getJarPathsForDependency_only_self() {
+    void resolveDependencies_only_self() {
         // arrange
         def mojo = new DepResolverMojo()
         def input = [
@@ -105,9 +105,9 @@ class DepResolverMojoTest {
         ]
 
         // act
-        def result = mojo.getJarPathsForDependency(input,
-                                                   ['some.group:artifact2:1.0.0'],
-                                                   '/some/path')
+        def result = mojo.resolveDependencies(input,
+                                              ['some.group:artifact2:1.0.0'],
+                                              '/some/path')
 
         // assert
         assertThat result,
@@ -115,7 +115,7 @@ class DepResolverMojoTest {
     }
 
     @Test
-    void getJarPathsForDependency_some() {
+    void resolveDependencies_some() {
         // arrange
         def mojo = new DepResolverMojo()
         def input = [
@@ -136,9 +136,9 @@ class DepResolverMojoTest {
         ]
 
         // act
-        def result = mojo.getJarPathsForDependency(input,
-                                                   ['some.group:artifact1:1.0.0'],
-                                                   '/some/path')
+        def result = mojo.resolveDependencies(input,
+                                              ['some.group:artifact1:1.0.0'],
+                                              '/some/path')
 
         // assert
         assertThat result,
@@ -149,7 +149,7 @@ class DepResolverMojoTest {
     }
 
     @Test
-    void getJarPathsForDependency_dupes() {
+    void resolveDependencies_dupes() {
         // arrange
         def mojo = new DepResolverMojo()
         def input = [
@@ -178,10 +178,10 @@ class DepResolverMojoTest {
         ]
 
         // act
-        def result = mojo.getJarPathsForDependency(input,
-                                                   ['some.group:artifact1:1.0.0',
+        def result = mojo.resolveDependencies(input,
+                                              ['some.group:artifact1:1.0.0',
                                                     'some.group:artifact2:1.0.0'],
-                                                   '/some/path')
+                                              '/some/path')
 
         // assert
         assertThat result,

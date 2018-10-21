@@ -74,9 +74,9 @@ class DepResolverMojo extends
         "${artifact.groupId}:${artifact.artifactId}:${artifact.version}"
     }
 
-    List<String> getJarPathsForDependency(Map<String, Dependency> dependencyGraph,
-                                          List<String> desiredDependencies,
-                                          String repoPath) {
+    List<String> resolveDependencies(Map<String, Dependency> dependencyGraph,
+                                     List<String> desiredDependencies,
+                                     String repoPath) {
         def repo = new File(repoPath).toPath()
         desiredDependencies.collect { desiredDependency ->
             def list = flattenDependencies(desiredDependency,
