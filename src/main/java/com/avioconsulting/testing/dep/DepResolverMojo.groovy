@@ -11,8 +11,8 @@ import org.apache.maven.plugins.annotations.ResolutionScope
 import org.apache.maven.project.MavenProject
 
 @Mojo(name = 'resolve',
-        requiresDependencyResolution = ResolutionScope.COMPILE,
-        requiresDependencyCollection = ResolutionScope.COMPILE)
+        requiresDependencyResolution = ResolutionScope.TEST,
+        requiresDependencyCollection = ResolutionScope.TEST)
 class DepResolverMojo extends
         AbstractMojo {
     @Component
@@ -23,9 +23,6 @@ class DepResolverMojo extends
         def dependencyQueue = [:]
         def nameWithClassifierAndTypeToSimpleMapping = [:]
         artifacts.each { artifact ->
-            if (artifact.scope == 'test') {
-                return
-            }
             def ourKey = getKey(artifact)
             def depTrail = artifact.dependencyTrail
             // root parent + ourselves are first and last
@@ -41,16 +38,19 @@ class DepResolverMojo extends
                     artifactId  : artifact.artifactId,
                     version     : artifact.version,
                     filename    : artifact.file.name,
+                    scope       : artifact.scope,
                     dependencies: []
             ]
         }
         dependencyQueue.each { artifact, deps ->
             def keyToLookup = nameWithClassifierAndTypeToSimpleMapping[artifact]
-            assert keyToLookup : "Unable to lookup ${artifact}!"
+            assert keyToLookup: "Unable to lookup ${artifact}!"
             def resultForItem = results[keyToLookup]
             resultForItem['dependencies'] = deps
         }
-        results
+        results.findAll { key, value ->
+            value['scope'] != 'test'
+        }
     }
 
     private static String getKey(Artifact artifact) {

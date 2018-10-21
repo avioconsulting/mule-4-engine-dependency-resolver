@@ -71,6 +71,7 @@ class DepResolverMojoTest {
                                    artifactId  : 'artifact1',
                                    version     : '1.0.0',
                                    filename    : 'artifact1-1.0.0.jar',
+                                   scope       : 'compile',
                                    dependencies: [
                                            'some.group:artifact2:1.0.0'
                                    ]
@@ -80,6 +81,7 @@ class DepResolverMojoTest {
                                    artifactId  : 'artifact2',
                                    version     : '1.0.0',
                                    filename    : 'artifact2-1.0.0.jar',
+                                   scope       : 'compile',
                                    dependencies: []
                            ]
                    ]))
