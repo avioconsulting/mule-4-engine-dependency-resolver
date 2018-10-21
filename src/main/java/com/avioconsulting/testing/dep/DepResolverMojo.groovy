@@ -7,6 +7,7 @@ import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugin.MojoFailureException
 import org.apache.maven.plugins.annotations.Component
 import org.apache.maven.plugins.annotations.Mojo
+import org.apache.maven.plugins.annotations.Parameter
 import org.apache.maven.plugins.annotations.ResolutionScope
 import org.apache.maven.project.MavenProject
 
@@ -15,6 +16,9 @@ import org.apache.maven.project.MavenProject
         requiresDependencyCollection = ResolutionScope.TEST)
 class DepResolverMojo extends
         AbstractMojo {
+    @Parameter(required = true, defaultValue = 'dependencies.json')
+    private File outputJsonFile
+
     @Component
     private MavenProject mavenProject
 
@@ -59,9 +63,10 @@ class DepResolverMojo extends
 
     @Override
     void execute() throws MojoExecutionException, MojoFailureException {
-        log.info 'Doing stuff'
+        log.info 'Figuring out dependencies'
         def result = getDependencyMap(mavenProject.artifacts)
         def asJson = JsonOutput.prettyPrint(JsonOutput.toJson(result))
-        log.info asJson
+        log.info "Done, now writing JSON to ${outputJsonFile}"
+        this.outputJsonFile.write(asJson)
     }
 }
