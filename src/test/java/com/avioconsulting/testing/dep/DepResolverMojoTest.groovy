@@ -33,7 +33,7 @@ class DepResolverMojoTest {
             // we are always last
             otherDeps.add(it.toString())
             // deps seem to not have scopes
-            otherDeps = otherDeps.collect {d ->
+            otherDeps = otherDeps.collect { d ->
                 d.replace(':compile', '')
             }
             it.dependencyTrail = otherDeps
@@ -49,10 +49,12 @@ class DepResolverMojoTest {
         def artifact1 = getArtifact('artifact1',
                                     'compile',
                                     [])
+        def artifact2 = getArtifact('artifact2',
+                                    'compile',
+                                    [artifact1])
         def artifacts = [
-                getArtifact('artifact2',
-                            'compile',
-                            [artifact1])
+                artifact1,
+                artifact2
         ].toSet()
 
         // act
