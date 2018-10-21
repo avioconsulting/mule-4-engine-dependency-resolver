@@ -18,7 +18,7 @@ import org.apache.maven.project.MavenProject
 class DepResolverMojo extends
         AbstractMojo {
     @Parameter(required = true, defaultValue = 'dependencies.json')
-    private File outputJsonFile
+    private String outputJsonFile
 
     @Parameter(required = true, property = 'resolve.dependencies')
     private List<String> requestedDependencies
@@ -113,7 +113,10 @@ class DepResolverMojo extends
                                            this.requestedDependencies,
                                            this.repository.basedir)
         def asJson = JsonOutput.prettyPrint(JsonOutput.toJson(resolved))
-        log.info "Done, now writing JSON to ${outputJsonFile}"
-        this.outputJsonFile.write(asJson)
+        def resourceDir = new File(mavenProject.build.outputDirectory, 'dependency_resources')
+        resourceDir.mkdirs()
+        def file = new File(resourceDir, outputJsonFile)
+        log.info "Done, now writing JSON to ${file}"
+        file.write(asJson)
     }
 }
