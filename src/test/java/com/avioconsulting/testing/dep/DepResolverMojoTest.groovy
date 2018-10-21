@@ -42,13 +42,13 @@ class DepResolverMojoTest {
     void getDependencyMap() {
         // arrange
         def mojo = new DepResolverMojo()
-        def artifact2 = getArtifact('artifact2',
+        def artifact1 = getArtifact('artifact1',
                                     'compile',
                                     [])
         def artifacts = [
-                getArtifact('artifact1',
+                getArtifact('artifact2',
                             'compile',
-                            [artifact2])
+                            [artifact1])
         ].toSet()
 
         // act
