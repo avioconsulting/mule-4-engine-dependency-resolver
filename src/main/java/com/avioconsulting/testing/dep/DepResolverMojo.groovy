@@ -1,10 +1,6 @@
 package com.avioconsulting.testing.dep
 
 import groovy.json.JsonOutput
-import org.apache.maven.artifact.Artifact
-import org.apache.maven.artifact.DefaultArtifact
-import org.apache.maven.artifact.repository.ArtifactRepository
-import org.apache.maven.artifact.resolver.ArtifactResolutionRequest
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugin.MojoFailureException
@@ -12,7 +8,14 @@ import org.apache.maven.plugins.annotations.Component
 import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
 import org.apache.maven.project.MavenProject
-import org.apache.maven.repository.RepositorySystem
+import org.eclipse.aether.RepositorySystem
+import org.eclipse.aether.RepositorySystemSession
+import org.eclipse.aether.artifact.Artifact
+import org.eclipse.aether.artifact.DefaultArtifact
+import org.eclipse.aether.collection.CollectRequest
+import org.eclipse.aether.graph.Dependency
+import org.eclipse.aether.graph.DependencyNode
+import org.eclipse.aether.util.artifact.JavaScopes
 
 @Mojo(name = 'resolve')
 class DepResolverMojo extends
@@ -34,60 +37,37 @@ class DepResolverMojo extends
     @Component
     private MavenProject mavenProject
 
-    @Parameter(defaultValue = '${localRepository}')
-    ArtifactRepository localRepository
-
     @Component
     private RepositorySystem repositorySystem
+
+    @Parameter(defaultValue = '${repositorySystemSession}',
+            readonly = true)
+    private RepositorySystemSession repoSession
 
     private List<String> getRequestedDependencies() {
         this.requestedDependenciesCsv.split(',')
     }
 
-    Map<String, CompleteArtifact> getDependencyMap(Set<Artifact> artifacts) {
-        def results = [:]
-        def dependencyQueue = [:]
-        def nameWithClassifierAndTypeToSimpleMapping = [:]
-        artifacts.each { artifact ->
+    Map<String, CompleteArtifact> getDependencyMap(List<DependencyNode> artifacts,
+                                                   Map<String, CompleteArtifact> results = [:]) {
+        artifacts.each { node ->
+            def artifact = node.artifact
             def ourKey = getKey(artifact)
-            def depTrail = artifact.dependencyTrail
-            assert depTrail: "Expected dependencyTrail for artifact ${ourKey}"
-            // root parent + ourselves are first and last
-            def dependsOnUs = depTrail.size() == 2 ? [] : depTrail[1..-2]
-            dependsOnUs.each { dependency ->
-                def list = dependencyQueue[dependency] ?: (dependencyQueue[dependency] = [])
-                list << ourKey
+            getDependencyMap(node.children,
+                             results)
+            def dependencyKeys = node.children.collect { childNode ->
+                getKey(childNode.artifact)
             }
-            def nameWithoutScope = artifact.toString().replace(":${artifact.scope}", '')
-            nameWithClassifierAndTypeToSimpleMapping[nameWithoutScope] = ourKey
             results[ourKey] = new CompleteArtifact(ourKey,
                                                    artifact.groupId,
                                                    artifact.artifactId,
                                                    artifact.version,
-                                                   artifact.file.absolutePath,
-                                                   artifact.scope,
-                                                   [])
+                                                   // TODO: fix the file path problem
+                                                   'somefilepath',
+                                                   'compile',
+                                                   dependencyKeys)
         }
-        dependencyQueue.each { artifact,
-                               List<String> deps ->
-            def keyToLookup = nameWithClassifierAndTypeToSimpleMapping[artifact]
-            assert keyToLookup: "Unable to lookup ${artifact}!"
-            def resultForItem = results[keyToLookup] as CompleteArtifact
-            if (this.sortOutput) {
-                deps = deps.sort()
-            }
-            results[keyToLookup] = new CompleteArtifact(resultForItem.name,
-                                                        resultForItem.groupId,
-                                                        resultForItem.artifactId,
-                                                        resultForItem.version,
-                                                        resultForItem.filename,
-                                                        resultForItem.scope,
-                                                        deps)
-        }
-        def removeTestScope = results.findAll { key, value ->
-            value['scope'] != 'test'
-        }
-        this.sortOutput ? removeTestScope.sort() : removeTestScope
+        this.sortOutput ? results.sort() : results
     }
 
     private static String getKey(Artifact artifact) {
@@ -126,31 +106,18 @@ class DepResolverMojo extends
         recurse ? null : totals.values().toList()
     }
 
-    private Set<Artifact> forceDependencyDownload() {
+    private List<DependencyNode> collectDependencies() {
         this.requestedDependencies.collect { dependencyStr ->
-            def parts = dependencyStr.split(':')
-            def groupId = parts[0]
-            def artifactId = parts[1]
-            def version = parts[2]
-            def artifact = repositorySystem.createArtifact(groupId,
-                                                           artifactId,
-                                                           version,
-                                                           'compile',
-                                                           'jar')
+            def artifact = new DefaultArtifact(dependencyStr)
             log.info "Forcing download of dependency ${artifact}"
-            // TODO: use with
-            def request = new ArtifactResolutionRequest()
-            request.localRepository = this.localRepository
-            request.remoteRepositories = this.mavenProject.remoteArtifactRepositories
-            request.artifact = artifact
-            // without this, getArtifactResolutionNodes does not return anything
-            request.resolveTransitively = true
-            def result = repositorySystem.resolve(request)
-            assert result.success: "We were unable to successfully resolve artifact ${artifact}"
-            def resultList = result.artifacts
-            assert resultList && resultList.any(): "Expected artifact ${dependencyStr} to be resolved!"
-            resultList
-        }.flatten().toSet()
+            def collectRequest = new CollectRequest()
+            collectRequest.setRoot(new Dependency(artifact,
+                                                  JavaScopes.COMPILE))
+            // TODO: setRepositories??
+            def collectResult = repositorySystem.collectDependencies(repoSession,
+                                                                     collectRequest)
+            collectResult.root
+        }
     }
 
     private File getOutputFile(String filename) {
@@ -167,9 +134,9 @@ class DepResolverMojo extends
 
     @Override
     void execute() throws MojoExecutionException, MojoFailureException {
-        def artifacts = forceDependencyDownload()
+        def dependencyNodes = collectDependencies()
         log.info "Figuring out dependencies for ${this.requestedDependencies}"
-        def dependencyGraph = getDependencyMap(artifacts)
+        def dependencyGraph = getDependencyMap(dependencyNodes)
         if (this.dependencyGraphJsonFile) {
             def depFile = getOutputFile(dependencyGraphJsonFile)
             log.info "Writing dependency graph to ${depFile}"
