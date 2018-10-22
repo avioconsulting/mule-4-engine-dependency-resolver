@@ -77,9 +77,9 @@ class DepResolverMojo extends
         "${artifact.groupId}:${artifact.artifactId}:${artifact.version}"
     }
 
-    List<SimpleArtifact> resolveDependencies(Map<String, CompleteArtifact> dependencyGraph,
-                                             List<String> desiredDependencies,
-                                             String repoPath) {
+    List<SimpleArtifact> flattenOurDependencyGraph(Map<String, CompleteArtifact> dependencyGraph,
+                                                   List<String> desiredDependencies,
+                                                   String repoPath) {
         def repo = new File(repoPath).toPath()
         desiredDependencies.collect { desiredDependency ->
             def list = flattenDependencies(desiredDependency,
@@ -140,8 +140,8 @@ class DepResolverMojo extends
 
     @Override
     void execute() throws MojoExecutionException, MojoFailureException {
-        def dependencyNodes = collectDependencies()
         log.info "Figuring out dependencies for ${this.requestedDependencies}"
+        def dependencyNodes = collectDependencies()
         def dependencyGraph = getDependencyMap(dependencyNodes)
         if (this.dependencyGraphJsonFile) {
             def depFile = getOutputFile(dependencyGraphJsonFile)
@@ -150,9 +150,9 @@ class DepResolverMojo extends
                             depFile)
 
         }
-        def resolved = resolveDependencies(dependencyGraph,
-                                           this.requestedDependencies,
-                                           repoSession.localRepository.basedir.absolutePath)
+        def resolved = flattenOurDependencyGraph(dependencyGraph,
+                                                 this.requestedDependencies,
+                                                 repoSession.localRepository.basedir.absolutePath)
         def file = getOutputFile(outputJsonFile)
         log.info "Done, now writing JSON to ${file}"
         writePrettyJson(resolved,

@@ -105,9 +105,9 @@ class DepResolverMojoTest {
         ]
 
         // act
-        def result = mojo.resolveDependencies(input,
-                                              ['some.group:artifact2:1.0.0'],
-                                              '/some/path')
+        def result = mojo.flattenOurDependencyGraph(input,
+                                                    ['some.group:artifact2:1.0.0'],
+                                                    '/some/path')
 
         // assert
         assertThat result,
@@ -143,9 +143,9 @@ class DepResolverMojoTest {
         ]
 
         // act
-        def result = mojo.resolveDependencies(input,
-                                              ['some.group:artifact1:1.0.0'],
-                                              '/some/path')
+        def result = mojo.flattenOurDependencyGraph(input,
+                                                    ['some.group:artifact1:1.0.0'],
+                                                    '/some/path')
 
         // assert
         assertThat result,
@@ -195,10 +195,10 @@ class DepResolverMojoTest {
         ]
 
         // act
-        def result = mojo.resolveDependencies(input,
-                                              ['some.group:artifact1:1.0.0',
+        def result = mojo.flattenOurDependencyGraph(input,
+                                                    ['some.group:artifact1:1.0.0',
                                                'some.group:artifact2:1.0.0'],
-                                              '/some/path')
+                                                    '/some/path')
 
         // assert
         is(equalTo([
