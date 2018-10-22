@@ -118,7 +118,8 @@ class DepResolverMojo extends
                                                   JavaScopes.COMPILE))
             collectRequest.setRepositories(mavenProject.remoteProjectRepositories)
             def dependencyRequest = new DependencyRequest(collectRequest,
-                                                          DependencyFilterUtils.classpathFilter(JavaScopes.COMPILE))
+                                                          DependencyFilterUtils.classpathFilter(JavaScopes.COMPILE,
+                                                                                                JavaScopes.RUNTIME))
             def result = repositorySystem.resolveDependencies(repoSession,
                                                               dependencyRequest)
             result.root
