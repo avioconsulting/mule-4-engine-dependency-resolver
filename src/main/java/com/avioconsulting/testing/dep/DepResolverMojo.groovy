@@ -3,10 +3,8 @@ package com.avioconsulting.testing.dep
 import groovy.json.JsonOutput
 import org.apache.maven.artifact.Artifact
 import org.apache.maven.artifact.DefaultArtifact
-import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager
 import org.apache.maven.artifact.repository.ArtifactRepository
 import org.apache.maven.artifact.resolver.ArtifactResolutionRequest
-import org.apache.maven.artifact.resolver.ArtifactResolver
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugin.MojoFailureException
@@ -14,6 +12,7 @@ import org.apache.maven.plugins.annotations.Component
 import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
 import org.apache.maven.project.MavenProject
+import org.apache.maven.repository.RepositorySystem
 
 @Mojo(name = 'resolve')
 class DepResolverMojo extends
@@ -39,10 +38,7 @@ class DepResolverMojo extends
     ArtifactRepository localRepository
 
     @Component
-    private ArtifactHandlerManager artifactHandlerManager
-
-    @Component
-    private ArtifactResolver resolver
+    private RepositorySystem repositorySystem
 
     private List<String> getRequestedDependencies() {
         this.requestedDependenciesCsv.split(',')
@@ -131,19 +127,16 @@ class DepResolverMojo extends
     }
 
     private Set<Artifact> forceDependencyDownload() {
-        def handler = this.artifactHandlerManager.getArtifactHandler('jar')
         this.requestedDependencies.collect { dependencyStr ->
             def parts = dependencyStr.split(':')
             def groupId = parts[0]
             def artifactId = parts[1]
             def version = parts[2]
-            def artifact = new DefaultArtifact(groupId,
-                                               artifactId,
-                                               version,
-                                               'compile',
-                                               'jar',
-                                               null,
-                                               handler)
+            def artifact = repositorySystem.createArtifact(groupId,
+                                                           artifactId,
+                                                           version,
+                                                           'compile',
+                                                           'jar')
             log.info "Forcing download of dependency ${artifact}"
             // TODO: use with
             def request = new ArtifactResolutionRequest()
@@ -152,7 +145,7 @@ class DepResolverMojo extends
             request.artifact = artifact
             // without this, getArtifactResolutionNodes does not return anything
             request.resolveTransitively = true
-            def result = this.resolver.resolve(request)
+            def result = repositorySystem.resolve(request)
             assert result.success: "We were unable to successfully resolve artifact ${artifact}"
             def resultList = result.artifactResolutionNodes
             assert resultList && resultList.any(): "Expected artifact ${dependencyStr} to be resolved!"
