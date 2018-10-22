@@ -43,6 +43,7 @@ class DepResolverMojo extends
         artifacts.each { artifact ->
             def ourKey = getKey(artifact)
             def depTrail = artifact.dependencyTrail
+            assert depTrail: "Expected dependencyTrail for artifact ${ourKey}"
             // root parent + ourselves are first and last
             def dependsOnUs = depTrail.size() == 2 ? [] : depTrail[1..-2]
             dependsOnUs.each { dependency ->
@@ -131,10 +132,12 @@ class DepResolverMojo extends
             request.localRepository = this.localRepository
             request.remoteRepositories = this.mavenProject.remoteArtifactRepositories
             request.artifact = artifact
+            // without this, getArtifactResolutionNodes does not return anything
+            request.resolveTransitively = true
             def result = this.resolver.resolve(request)
-            def resultList = result.artifacts
-            assert resultList && resultList.size() == 1: "Expected artifact ${dependencyStr} to be resolved!"
-            resultList[0]
+            def resultList = result.artifactResolutionNodes
+            assert resultList && resultList.size() >= 1: "Expected artifact ${dependencyStr} to be resolved!"
+            resultList[0].artifact
         }.toSet()
     }
 
