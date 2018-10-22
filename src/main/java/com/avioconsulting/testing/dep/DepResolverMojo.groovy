@@ -140,9 +140,9 @@ class DepResolverMojo extends
             request.resolveTransitively = true
             def result = this.resolver.resolve(request)
             def resultList = result.artifactResolutionNodes
-            assert resultList && resultList.size() >= 1: "Expected artifact ${dependencyStr} to be resolved!"
-            resultList[0].artifact
-        }.toSet()
+            assert resultList && resultList.any(): "Expected artifact ${dependencyStr} to be resolved!"
+            resultList.artifact
+        }.flatten().toSet()
     }
 
     private File getOutputFile(String filename) {
