@@ -24,8 +24,10 @@ class DepResolverMojo extends
     @Parameter(required = false, property = 'resolve.dependency.graph.json.file')
     private String dependencyGraphJsonFile
 
-    @Parameter(required = true, property = 'resolve.dependencies')
-    private List<String> requestedDependencies
+    @Parameter(required = true,
+            property = 'resolve.dependencies.comma.separated',
+            defaultValue = 'com.mulesoft.mule.distributions:mule-runtime-impl-bom:${app.runtime},org.mule.distributions:mule-module-embedded-impl:${app.runtime}')
+    private String requestedDependenciesCsv
 
     @Parameter(property = 'resolve.sort.output')
     private boolean sortOutput
@@ -41,6 +43,10 @@ class DepResolverMojo extends
 
     @Component
     private ArtifactResolver resolver
+
+    private List<String> getRequestedDependencies() {
+        this.requestedDependenciesCsv.split(',')
+    }
 
     Map<String, CompleteArtifact> getDependencyMap(Set<Artifact> artifacts) {
         def results = [:]
