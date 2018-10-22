@@ -21,8 +21,9 @@ import org.eclipse.aether.util.filter.DependencyFilterUtils
 @Mojo(name = 'resolve')
 class MuleEngineDependencyResolverMojo extends AbstractMojo {
     @Parameter(required = true,
-            defaultValue = 'dependencies.json')
-    private String outputJsonFile
+            defaultValue = '${project.build.testOutputDirectory}/mule4_embedded_engine/dependencies.json',
+            property = 'resolve.outputFile')
+    private File outputJsonFile
 
     @Parameter(required = true,
             property = 'resolve.dependencies.comma.separated',
@@ -78,14 +79,6 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
         }
     }
 
-    private File getOutputFile(String filename) {
-        def resourceDir = new File(mavenProject.build.outputDirectory,
-                                   'dependency_resources')
-        resourceDir.mkdirs()
-        new File(resourceDir,
-                 filename)
-    }
-
     static private def writePrettyJson(Object input,
                                        File outputFile) {
         def asJson = JsonOutput.prettyPrint(JsonOutput.toJson(input))
@@ -99,9 +92,9 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
         log.info 'Getting list'
         def list = getDependencyList(dependencyNodes,
                                      repoSession.localRepository.basedir)
-        def file = getOutputFile(outputJsonFile)
-        log.info "Done, now writing JSON to ${file}"
+        outputJsonFile.parentFile.mkdirs()
+        log.info "Done, now writing JSON to ${outputJsonFile}"
         writePrettyJson(list,
-                        file)
+                        outputJsonFile)
     }
 }
