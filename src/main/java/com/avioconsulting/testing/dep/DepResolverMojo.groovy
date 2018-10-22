@@ -2,7 +2,11 @@ package com.avioconsulting.testing.dep
 
 import groovy.json.JsonOutput
 import org.apache.maven.artifact.Artifact
+import org.apache.maven.artifact.DefaultArtifact
+import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager
 import org.apache.maven.artifact.repository.ArtifactRepository
+import org.apache.maven.artifact.resolver.ArtifactResolutionRequest
+import org.apache.maven.artifact.resolver.ArtifactResolver
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugin.MojoFailureException
@@ -19,7 +23,7 @@ class DepResolverMojo extends
         AbstractMojo {
     @Parameter(required = true, defaultValue = 'dependencies.json')
     private String outputJsonFile
-
+    
     @Parameter(required = true, property = 'resolve.dependencies')
     private List<String> requestedDependencies
 
@@ -27,7 +31,13 @@ class DepResolverMojo extends
     private MavenProject mavenProject
 
     @Parameter(defaultValue = '${localRepository}')
-    ArtifactRepository repository
+    ArtifactRepository localRepository
+
+    @Component
+    private ArtifactHandlerManager artifactHandlerManager
+
+    @Component
+    private ArtifactResolver resolver
 
     Map<String, CompleteArtifact> getDependencyMap(Set<Artifact> artifacts) {
         def results = [:]
@@ -105,13 +115,38 @@ class DepResolverMojo extends
         recurse ? null : totals.values().toList()
     }
 
+    private def forceDependencyDownload() {
+        def handler = this.artifactHandlerManager.getArtifactHandler('pom')
+        this.requestedDependencies.each { dependencyStr ->
+            def parts = dependencyStr.split(':')
+            def groupId = parts[0]
+            def artifactId = parts[1]
+            def version = parts[2]
+            def artifact = new DefaultArtifact(groupId,
+                                               artifactId,
+                                               version,
+                                               'compile',
+                                               'jar',
+                                               null,
+                                               handler)
+            log.info "Forcing download of dependency ${artifact}"
+            def request = new ArtifactResolutionRequest()
+            request.localRepository = this.localRepository
+            request.remoteRepositories = this.mavenProject.remoteArtifactRepositories
+            request.artifact = artifact
+            def result = this.resolver.resolve(request)
+            assert result.artifacts.size() == 1: 'Expected 1 artifact to be resolved!'
+        }
+    }
+
     @Override
     void execute() throws MojoExecutionException, MojoFailureException {
+        forceDependencyDownload()
         log.info "Figuring out dependencies for ${this.requestedDependencies}"
         def dependencyGraph = getDependencyMap(mavenProject.artifacts)
         def resolved = resolveDependencies(dependencyGraph,
                                            this.requestedDependencies,
-                                           this.repository.basedir)
+                                           this.localRepository.basedir)
         def asJson = JsonOutput.prettyPrint(JsonOutput.toJson(resolved))
         def resourceDir = new File(mavenProject.build.outputDirectory, 'dependency_resources')
         resourceDir.mkdirs()
