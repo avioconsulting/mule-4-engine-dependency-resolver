@@ -49,18 +49,6 @@ class DepResolverMojo extends
 
     List<SimpleArtifact> getDependencyList(List<DependencyNode> artifacts,
                                            File repoDirectory) {
-//        artifacts.each { node ->
-//            def artifact = node.artifact
-//            def ourKey = getKey(artifact)
-//            getDependencyList(node.children,
-//                              repoDirectory,
-//                              results)
-//            def file = artifact.file
-//            assert file: "No filename looked up for ${artifact}"
-//            results[ourKey] = SimpleArtifact.fromComplete(artifact,
-//                                                          ourKey,
-//                                                          repoDirectory)
-//        }
         def results = artifacts.collect { node ->
             def artifact = node.artifact
             def file = artifact.file
