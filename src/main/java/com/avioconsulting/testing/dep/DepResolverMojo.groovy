@@ -147,12 +147,9 @@ class DepResolverMojo extends
             request.resolveTransitively = true
             def result = repositorySystem.resolve(request)
             assert result.success: "We were unable to successfully resolve artifact ${artifact}"
-            def resultList = result.artifactResolutionNodes
+            def resultList = result.artifacts
             assert resultList && resultList.any(): "Expected artifact ${dependencyStr} to be resolved!"
-            def dependenciesOfThis = resultList.artifact
-            // artifactResolutionNodes does not include ourselves
-            dependenciesOfThis << result.originatingArtifact
-            return dependenciesOfThis
+            resultList
         }.flatten().toSet()
     }
 
