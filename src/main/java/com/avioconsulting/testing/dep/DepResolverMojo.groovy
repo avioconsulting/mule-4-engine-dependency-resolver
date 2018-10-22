@@ -153,6 +153,7 @@ class DepResolverMojo extends
             // without this, getArtifactResolutionNodes does not return anything
             request.resolveTransitively = true
             def result = this.resolver.resolve(request)
+            assert result.success : "We were unable to successfully resolve artifact ${artifact}"
             def resultList = result.artifactResolutionNodes
             assert resultList && resultList.any(): "Expected artifact ${dependencyStr} to be resolved!"
             resultList.artifact
