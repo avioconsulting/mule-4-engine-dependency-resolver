@@ -27,6 +27,9 @@ class DepResolverMojo extends
     @Parameter(required = true, property = 'resolve.dependencies')
     private List<String> requestedDependencies
 
+    @Parameter(property = 'resolve.sort.output')
+    private boolean sortOutput
+
     @Component
     private MavenProject mavenProject
 
@@ -68,17 +71,21 @@ class DepResolverMojo extends
             def keyToLookup = nameWithClassifierAndTypeToSimpleMapping[artifact]
             assert keyToLookup: "Unable to lookup ${artifact}!"
             def resultForItem = results[keyToLookup] as CompleteArtifact
+            if (this.sortOutput) {
+                deps = deps.sort()
+            }
             results[keyToLookup] = new CompleteArtifact(resultForItem.name,
                                                         resultForItem.groupId,
                                                         resultForItem.artifactId,
                                                         resultForItem.version,
                                                         resultForItem.filename,
                                                         resultForItem.scope,
-                                                        deps.sort())
+                                                        deps)
         }
-        results.findAll { key, value ->
+        def removeTestScope = results.findAll { key, value ->
             value['scope'] != 'test'
-        }.sort()
+        }
+        this.sortOutput ? removeTestScope.sort() : removeTestScope
     }
 
     private static String getKey(Artifact artifact) {
@@ -132,6 +139,7 @@ class DepResolverMojo extends
                                                null,
                                                handler)
             log.info "Forcing download of dependency ${artifact}"
+            // TODO: use with
             def request = new ArtifactResolutionRequest()
             request.localRepository = this.localRepository
             request.remoteRepositories = this.mavenProject.remoteArtifactRepositories
