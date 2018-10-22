@@ -21,6 +21,9 @@ class DepResolverMojo extends
     @Parameter(required = true, defaultValue = 'dependencies.json')
     private String outputJsonFile
 
+    @Parameter(required = false, property = 'resolve.dependency.graph.json.file')
+    private String dependencyGraphJsonFile
+
     @Parameter(required = true, property = 'resolve.dependencies')
     private List<String> requestedDependencies
 
@@ -60,7 +63,8 @@ class DepResolverMojo extends
                                                    artifact.scope,
                                                    [])
         }
-        dependencyQueue.each { artifact, deps ->
+        dependencyQueue.each { artifact,
+                               List<String> deps ->
             def keyToLookup = nameWithClassifierAndTypeToSimpleMapping[artifact]
             assert keyToLookup: "Unable to lookup ${artifact}!"
             def resultForItem = results[keyToLookup] as CompleteArtifact
@@ -70,11 +74,11 @@ class DepResolverMojo extends
                                                         resultForItem.version,
                                                         resultForItem.filename,
                                                         resultForItem.scope,
-                                                        deps)
+                                                        deps.sort())
         }
         results.findAll { key, value ->
             value['scope'] != 'test'
-        }
+        }.sort()
     }
 
     private static String getKey(Artifact artifact) {
@@ -141,19 +145,36 @@ class DepResolverMojo extends
         }.toSet()
     }
 
+    private File getOutputFile(String filename) {
+        def resourceDir = new File(mavenProject.build.outputDirectory, 'dependency_resources')
+        resourceDir.mkdirs()
+        new File(resourceDir, filename)
+    }
+
+    static private def writePrettyJson(Object input,
+                                       File outputFile) {
+        def asJson = JsonOutput.prettyPrint(JsonOutput.toJson(input))
+        outputFile.write(asJson)
+    }
+
     @Override
     void execute() throws MojoExecutionException, MojoFailureException {
         def artifacts = forceDependencyDownload()
         log.info "Figuring out dependencies for ${this.requestedDependencies}"
         def dependencyGraph = getDependencyMap(artifacts)
+        if (this.dependencyGraphJsonFile) {
+            def depFile = getOutputFile(dependencyGraphJsonFile)
+            log.info "Writing dependency graph to ${depFile}"
+            writePrettyJson(dependencyGraph,
+                            depFile)
+
+        }
         def resolved = resolveDependencies(dependencyGraph,
                                            this.requestedDependencies,
                                            this.localRepository.basedir)
-        def asJson = JsonOutput.prettyPrint(JsonOutput.toJson(resolved))
-        def resourceDir = new File(mavenProject.build.outputDirectory, 'dependency_resources')
-        resourceDir.mkdirs()
-        def file = new File(resourceDir, outputJsonFile)
+        def file = getOutputFile(outputJsonFile)
         log.info "Done, now writing JSON to ${file}"
-        file.write(asJson)
+        writePrettyJson(resolved,
+                        file)
     }
 }
