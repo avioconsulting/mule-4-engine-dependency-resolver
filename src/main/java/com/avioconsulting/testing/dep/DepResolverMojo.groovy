@@ -151,7 +151,7 @@ class DepResolverMojo extends
         }
         def resolved = resolveDependencies(dependencyGraph,
                                            this.requestedDependencies,
-                                           this.localRepository.basedir)
+                                           repoSession.localRepository.basedir.absolutePath)
         def file = getOutputFile(outputJsonFile)
         log.info "Done, now writing JSON to ${file}"
         writePrettyJson(resolved,
