@@ -10,7 +10,6 @@ import org.apache.maven.plugins.annotations.Parameter
 import org.apache.maven.project.MavenProject
 import org.eclipse.aether.RepositorySystem
 import org.eclipse.aether.RepositorySystemSession
-import org.eclipse.aether.artifact.Artifact
 import org.eclipse.aether.artifact.DefaultArtifact
 import org.eclipse.aether.collection.CollectRequest
 import org.eclipse.aether.graph.Dependency
@@ -54,17 +53,12 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
             def file = artifact.file
             assert file: "No filename looked up for ${artifact}"
             def us = SimpleArtifact.fromComplete(artifact,
-                                                 getKey(artifact),
                                                  repoDirectory)
             def kids = getDependencyList(node.children,
                                          repoDirectory)
             kids << us
         }.flatten() as List<SimpleArtifact>
-        this.sortOutput ? results.sort { artifact -> artifact.name } : results
-    }
-
-    private static String getKey(Artifact artifact) {
-        "${artifact.groupId}:${artifact.artifactId}:${artifact.version}"
+        this.sortOutput ? results.sort { artifact -> "${artifact.groupId}:${artifact.artifactId}" } : results
     }
 
     private List<DependencyNode> collectDependencies() {
