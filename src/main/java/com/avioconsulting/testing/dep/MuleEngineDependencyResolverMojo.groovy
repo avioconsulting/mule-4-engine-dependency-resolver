@@ -28,7 +28,7 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
     @Parameter(required = true,
             property = 'resolve.dependencies.comma.separated',
             defaultValue = 'com.mulesoft.mule.distributions:mule-runtime-impl-bom:${app.runtime},org.mule.distributions:mule-module-embedded-impl:${app.runtime}')
-    private String requestedDependenciesCsv
+    private List<String> requestedDependencies
 
     @Parameter(property = 'resolve.sort.output')
     private boolean sortOutput
@@ -42,10 +42,6 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
     @Parameter(defaultValue = '${repositorySystemSession}',
             readonly = true)
     private RepositorySystemSession repoSession
-
-    private List<String> getRequestedDependencies() {
-        this.requestedDependenciesCsv.split(',')
-    }
 
     List<SimpleArtifact> getDependencyList(List<DependencyNode> artifacts,
                                            File repoDirectory) {
