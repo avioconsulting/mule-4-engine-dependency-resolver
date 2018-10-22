@@ -131,7 +131,7 @@ class DepResolverMojo extends
     }
 
     private Set<Artifact> forceDependencyDownload() {
-        def handler = this.artifactHandlerManager.getArtifactHandler('pom')
+        def handler = this.artifactHandlerManager.getArtifactHandler('jar')
         this.requestedDependencies.collect { dependencyStr ->
             def parts = dependencyStr.split(':')
             def groupId = parts[0]
@@ -153,10 +153,13 @@ class DepResolverMojo extends
             // without this, getArtifactResolutionNodes does not return anything
             request.resolveTransitively = true
             def result = this.resolver.resolve(request)
-            assert result.success : "We were unable to successfully resolve artifact ${artifact}"
+            assert result.success: "We were unable to successfully resolve artifact ${artifact}"
             def resultList = result.artifactResolutionNodes
             assert resultList && resultList.any(): "Expected artifact ${dependencyStr} to be resolved!"
-            resultList.artifact
+            def dependenciesOfThis = resultList.artifact
+            // artifactResolutionNodes does not include ourselves
+            dependenciesOfThis << result.originatingArtifact
+            return dependenciesOfThis
         }.flatten().toSet()
     }
 
