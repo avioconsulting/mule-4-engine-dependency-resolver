@@ -15,7 +15,9 @@ import org.eclipse.aether.artifact.DefaultArtifact
 import org.eclipse.aether.collection.CollectRequest
 import org.eclipse.aether.graph.Dependency
 import org.eclipse.aether.graph.DependencyNode
+import org.eclipse.aether.resolution.DependencyRequest
 import org.eclipse.aether.util.artifact.JavaScopes
+import org.eclipse.aether.util.filter.DependencyFilterUtils
 
 @Mojo(name = 'resolve')
 class DepResolverMojo extends
@@ -58,12 +60,13 @@ class DepResolverMojo extends
             def dependencyKeys = node.children.collect { childNode ->
                 getKey(childNode.artifact)
             }
+            def file = artifact.file
+            assert file: "No filename looked up for ${artifact}"
             results[ourKey] = new CompleteArtifact(ourKey,
                                                    artifact.groupId,
                                                    artifact.artifactId,
                                                    artifact.version,
-                                                   // TODO: fix the file path problem
-                                                   'somefilepath',
+                                                   file.absolutePath,
                                                    'compile',
                                                    dependencyKeys)
         }
@@ -113,10 +116,12 @@ class DepResolverMojo extends
             def collectRequest = new CollectRequest()
             collectRequest.setRoot(new Dependency(artifact,
                                                   JavaScopes.COMPILE))
-            // TODO: setRepositories??
-            def collectResult = repositorySystem.collectDependencies(repoSession,
-                                                                     collectRequest)
-            collectResult.root
+            collectRequest.setRepositories(mavenProject.remoteProjectRepositories)
+            def dependencyRequest = new DependencyRequest(collectRequest,
+                                                          DependencyFilterUtils.classpathFilter(JavaScopes.COMPILE))
+            def result = repositorySystem.resolveDependencies(repoSession,
+                                                              dependencyRequest)
+            result.root
         }
     }
 
