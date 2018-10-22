@@ -112,7 +112,7 @@ class DepResolverMojo extends
     private List<DependencyNode> collectDependencies() {
         this.requestedDependencies.collect { dependencyStr ->
             def artifact = new DefaultArtifact(dependencyStr)
-            log.info "Forcing download of dependency ${artifact}"
+            log.info "Resolving dependency ${artifact}"
             def collectRequest = new CollectRequest()
             collectRequest.setRoot(new Dependency(artifact,
                                                   JavaScopes.COMPILE))
