@@ -20,9 +20,9 @@ import org.eclipse.aether.util.artifact.JavaScopes
 import org.eclipse.aether.util.filter.DependencyFilterUtils
 
 @Mojo(name = 'resolve')
-class DepResolverMojo extends
-        AbstractMojo {
-    @Parameter(required = true, defaultValue = 'dependencies.json')
+class MuleEngineDependencyResolverMojo extends AbstractMojo {
+    @Parameter(required = true,
+            defaultValue = 'dependencies.json')
     private String outputJsonFile
 
     @Parameter(required = true,
@@ -85,9 +85,11 @@ class DepResolverMojo extends
     }
 
     private File getOutputFile(String filename) {
-        def resourceDir = new File(mavenProject.build.outputDirectory, 'dependency_resources')
+        def resourceDir = new File(mavenProject.build.outputDirectory,
+                                   'dependency_resources')
         resourceDir.mkdirs()
-        new File(resourceDir, filename)
+        new File(resourceDir,
+                 filename)
     }
 
     static private def writePrettyJson(Object input,
