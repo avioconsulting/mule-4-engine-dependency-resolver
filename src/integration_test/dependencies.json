@@ -1,201 +1,8 @@
 [
     {
-        "version": "3.5.4",
-        "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-core/3.5.4/maven-core-3.5.4.jar",
-        "scope": "compile",
-        "name": "org.apache.maven:maven-core:3.5.4",
-        "artifactId": "maven-core"
-    },
-    {
-        "version": "3.5.4",
-        "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-model/3.5.4/maven-model-3.5.4.jar",
-        "scope": "compile",
-        "name": "org.apache.maven:maven-model:3.5.4",
-        "artifactId": "maven-model"
-    },
-    {
-        "version": "3.5.4",
-        "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-settings/3.5.4/maven-settings-3.5.4.jar",
-        "scope": "compile",
-        "name": "org.apache.maven:maven-settings:3.5.4",
-        "artifactId": "maven-settings"
-    },
-    {
-        "version": "3.5.4",
-        "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-settings-builder/3.5.4/maven-settings-builder-3.5.4.jar",
-        "scope": "compile",
-        "name": "org.apache.maven:maven-settings-builder:3.5.4",
-        "artifactId": "maven-settings-builder"
-    },
-    {
-        "version": "1.24",
-        "groupId": "org.codehaus.plexus",
-        "filenameRelativeToRepo": "org/codehaus/plexus/plexus-interpolation/1.24/plexus-interpolation-1.24.jar",
-        "scope": "compile",
-        "name": "org.codehaus.plexus:plexus-interpolation:1.24",
-        "artifactId": "plexus-interpolation"
-    },
-    {
-        "version": "1.4",
-        "groupId": "org.sonatype.plexus",
-        "filenameRelativeToRepo": "org/sonatype/plexus/plexus-sec-dispatcher/1.4/plexus-sec-dispatcher-1.4.jar",
-        "scope": "compile",
-        "name": "org.sonatype.plexus:plexus-sec-dispatcher:1.4",
-        "artifactId": "plexus-sec-dispatcher"
-    },
-    {
-        "version": "1.7",
-        "groupId": "org.sonatype.plexus",
-        "filenameRelativeToRepo": "org/sonatype/plexus/plexus-cipher/1.7/plexus-cipher-1.7.jar",
-        "scope": "compile",
-        "name": "org.sonatype.plexus:plexus-cipher:1.7",
-        "artifactId": "plexus-cipher"
-    },
-    {
-        "version": "3.5.4",
-        "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-builder-support/3.5.4/maven-builder-support-3.5.4.jar",
-        "scope": "compile",
-        "name": "org.apache.maven:maven-builder-support:3.5.4",
-        "artifactId": "maven-builder-support"
-    },
-    {
-        "version": "3.5.4",
-        "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-repository-metadata/3.5.4/maven-repository-metadata-3.5.4.jar",
-        "scope": "compile",
-        "name": "org.apache.maven:maven-repository-metadata:3.5.4",
-        "artifactId": "maven-repository-metadata"
-    },
-    {
-        "version": "3.5.4",
-        "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-artifact/3.5.4/maven-artifact-3.5.4.jar",
-        "scope": "compile",
-        "name": "org.apache.maven:maven-artifact:3.5.4",
-        "artifactId": "maven-artifact"
-    },
-    {
-        "version": "3.5.4",
-        "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-plugin-api/3.5.4/maven-plugin-api-3.5.4.jar",
-        "scope": "compile",
-        "name": "org.apache.maven:maven-plugin-api:3.5.4",
-        "artifactId": "maven-plugin-api"
-    },
-    {
-        "version": "3.5.4",
-        "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-model-builder/3.5.4/maven-model-builder-3.5.4.jar",
-        "scope": "compile",
-        "name": "org.apache.maven:maven-model-builder:3.5.4",
-        "artifactId": "maven-model-builder"
-    },
-    {
-        "version": "3.5.4",
-        "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-resolver-provider/3.5.4/maven-resolver-provider-3.5.4.jar",
-        "scope": "compile",
-        "name": "org.apache.maven:maven-resolver-provider:3.5.4",
-        "artifactId": "maven-resolver-provider"
-    },
-    {
-        "version": "1.1.1",
-        "groupId": "org.apache.maven.resolver",
-        "filenameRelativeToRepo": "org/apache/maven/resolver/maven-resolver-impl/1.1.1/maven-resolver-impl-1.1.1.jar",
-        "scope": "compile",
-        "name": "org.apache.maven.resolver:maven-resolver-impl:1.1.1",
-        "artifactId": "maven-resolver-impl"
-    },
-    {
-        "version": "1.1.1",
-        "groupId": "org.apache.maven.resolver",
-        "filenameRelativeToRepo": "org/apache/maven/resolver/maven-resolver-api/1.1.1/maven-resolver-api-1.1.1.jar",
-        "scope": "compile",
-        "name": "org.apache.maven.resolver:maven-resolver-api:1.1.1",
-        "artifactId": "maven-resolver-api"
-    },
-    {
-        "version": "1.1.1",
-        "groupId": "org.apache.maven.resolver",
-        "filenameRelativeToRepo": "org/apache/maven/resolver/maven-resolver-spi/1.1.1/maven-resolver-spi-1.1.1.jar",
-        "scope": "compile",
-        "name": "org.apache.maven.resolver:maven-resolver-spi:1.1.1",
-        "artifactId": "maven-resolver-spi"
-    },
-    {
-        "version": "1.1.1",
-        "groupId": "org.apache.maven.resolver",
-        "filenameRelativeToRepo": "org/apache/maven/resolver/maven-resolver-util/1.1.1/maven-resolver-util-1.1.1.jar",
-        "scope": "compile",
-        "name": "org.apache.maven.resolver:maven-resolver-util:1.1.1",
-        "artifactId": "maven-resolver-util"
-    },
-    {
-        "version": "3.2.1",
-        "groupId": "org.apache.maven.shared",
-        "filenameRelativeToRepo": "org/apache/maven/shared/maven-shared-utils/3.2.1/maven-shared-utils-3.2.1.jar",
-        "scope": "compile",
-        "name": "org.apache.maven.shared:maven-shared-utils:3.2.1",
-        "artifactId": "maven-shared-utils"
-    },
-    {
-        "version": "2.5",
-        "groupId": "commons-io",
-        "filenameRelativeToRepo": "commons-io/commons-io/2.5/commons-io-2.5.jar",
-        "scope": "compile",
-        "name": "commons-io:commons-io:2.5",
-        "artifactId": "commons-io"
-    },
-    {
-        "version": "0.3.3",
-        "groupId": "org.eclipse.sisu",
-        "filenameRelativeToRepo": "org/eclipse/sisu/org.eclipse.sisu.plexus/0.3.3/org.eclipse.sisu.plexus-0.3.3.jar",
-        "scope": "compile",
-        "name": "org.eclipse.sisu:org.eclipse.sisu.plexus:0.3.3",
-        "artifactId": "org.eclipse.sisu.plexus"
-    },
-    {
-        "version": "1.0",
-        "groupId": "javax.enterprise",
-        "filenameRelativeToRepo": "javax/enterprise/cdi-api/1.0/cdi-api-1.0.jar",
-        "scope": "compile",
-        "name": "javax.enterprise:cdi-api:1.0",
-        "artifactId": "cdi-api"
-    },
-    {
-        "version": "1.0",
-        "groupId": "javax.annotation",
-        "filenameRelativeToRepo": "javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar",
-        "scope": "compile",
-        "name": "javax.annotation:jsr250-api:1.0",
-        "artifactId": "jsr250-api"
-    },
-    {
-        "version": "0.3.3",
-        "groupId": "org.eclipse.sisu",
-        "filenameRelativeToRepo": "org/eclipse/sisu/org.eclipse.sisu.inject/0.3.3/org.eclipse.sisu.inject-0.3.3.jar",
-        "scope": "compile",
-        "name": "org.eclipse.sisu:org.eclipse.sisu.inject:0.3.3",
-        "artifactId": "org.eclipse.sisu.inject"
-    },
-    {
-        "version": "4.2.0",
-        "groupId": "com.google.inject",
-        "filenameRelativeToRepo": "com/google/inject/guice/4.2.0/guice-4.2.0-no_aop.jar",
-        "scope": "compile",
-        "name": "com.google.inject:guice:4.2.0",
-        "artifactId": "guice"
-    },
-    {
         "version": "1.0",
         "groupId": "aopalliance",
         "filenameRelativeToRepo": "aopalliance/aopalliance/1.0/aopalliance-1.0.jar",
-        "scope": "compile",
         "name": "aopalliance:aopalliance:1.0",
         "artifactId": "aopalliance"
     },
@@ -203,31 +10,160 @@
         "version": "20.0",
         "groupId": "com.google.guava",
         "filenameRelativeToRepo": "com/google/guava/guava/20.0/guava-20.0.jar",
-        "scope": "compile",
         "name": "com.google.guava:guava:20.0",
         "artifactId": "guava"
+    },
+    {
+        "version": "4.2.0",
+        "groupId": "com.google.inject",
+        "filenameRelativeToRepo": "com/google/inject/guice/4.2.0/guice-4.2.0-no_aop.jar",
+        "name": "com.google.inject:guice:4.2.0",
+        "artifactId": "guice"
+    },
+    {
+        "version": "2.5",
+        "groupId": "commons-io",
+        "filenameRelativeToRepo": "commons-io/commons-io/2.5/commons-io-2.5.jar",
+        "name": "commons-io:commons-io:2.5",
+        "artifactId": "commons-io"
+    },
+    {
+        "version": "1.0",
+        "groupId": "javax.annotation",
+        "filenameRelativeToRepo": "javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar",
+        "name": "javax.annotation:jsr250-api:1.0",
+        "artifactId": "jsr250-api"
+    },
+    {
+        "version": "1.0",
+        "groupId": "javax.enterprise",
+        "filenameRelativeToRepo": "javax/enterprise/cdi-api/1.0/cdi-api-1.0.jar",
+        "name": "javax.enterprise:cdi-api:1.0",
+        "artifactId": "cdi-api"
     },
     {
         "version": "1",
         "groupId": "javax.inject",
         "filenameRelativeToRepo": "javax/inject/javax.inject/1/javax.inject-1.jar",
-        "scope": "compile",
         "name": "javax.inject:javax.inject:1",
         "artifactId": "javax.inject"
     },
     {
-        "version": "3.1.0",
-        "groupId": "org.codehaus.plexus",
-        "filenameRelativeToRepo": "org/codehaus/plexus/plexus-utils/3.1.0/plexus-utils-3.1.0.jar",
-        "scope": "compile",
-        "name": "org.codehaus.plexus:plexus-utils:3.1.0",
-        "artifactId": "plexus-utils"
+        "version": "3.5",
+        "groupId": "org.apache.commons",
+        "filenameRelativeToRepo": "org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar",
+        "name": "org.apache.commons:commons-lang3:3.5",
+        "artifactId": "commons-lang3"
+    },
+    {
+        "version": "1.1.1",
+        "groupId": "org.apache.maven.resolver",
+        "filenameRelativeToRepo": "org/apache/maven/resolver/maven-resolver-api/1.1.1/maven-resolver-api-1.1.1.jar",
+        "name": "org.apache.maven.resolver:maven-resolver-api:1.1.1",
+        "artifactId": "maven-resolver-api"
+    },
+    {
+        "version": "1.1.1",
+        "groupId": "org.apache.maven.resolver",
+        "filenameRelativeToRepo": "org/apache/maven/resolver/maven-resolver-impl/1.1.1/maven-resolver-impl-1.1.1.jar",
+        "name": "org.apache.maven.resolver:maven-resolver-impl:1.1.1",
+        "artifactId": "maven-resolver-impl"
+    },
+    {
+        "version": "1.1.1",
+        "groupId": "org.apache.maven.resolver",
+        "filenameRelativeToRepo": "org/apache/maven/resolver/maven-resolver-spi/1.1.1/maven-resolver-spi-1.1.1.jar",
+        "name": "org.apache.maven.resolver:maven-resolver-spi:1.1.1",
+        "artifactId": "maven-resolver-spi"
+    },
+    {
+        "version": "1.1.1",
+        "groupId": "org.apache.maven.resolver",
+        "filenameRelativeToRepo": "org/apache/maven/resolver/maven-resolver-util/1.1.1/maven-resolver-util-1.1.1.jar",
+        "name": "org.apache.maven.resolver:maven-resolver-util:1.1.1",
+        "artifactId": "maven-resolver-util"
+    },
+    {
+        "version": "3.2.1",
+        "groupId": "org.apache.maven.shared",
+        "filenameRelativeToRepo": "org/apache/maven/shared/maven-shared-utils/3.2.1/maven-shared-utils-3.2.1.jar",
+        "name": "org.apache.maven.shared:maven-shared-utils:3.2.1",
+        "artifactId": "maven-shared-utils"
+    },
+    {
+        "version": "3.5.4",
+        "groupId": "org.apache.maven",
+        "filenameRelativeToRepo": "org/apache/maven/maven-artifact/3.5.4/maven-artifact-3.5.4.jar",
+        "name": "org.apache.maven:maven-artifact:3.5.4",
+        "artifactId": "maven-artifact"
+    },
+    {
+        "version": "3.5.4",
+        "groupId": "org.apache.maven",
+        "filenameRelativeToRepo": "org/apache/maven/maven-builder-support/3.5.4/maven-builder-support-3.5.4.jar",
+        "name": "org.apache.maven:maven-builder-support:3.5.4",
+        "artifactId": "maven-builder-support"
+    },
+    {
+        "version": "3.5.4",
+        "groupId": "org.apache.maven",
+        "filenameRelativeToRepo": "org/apache/maven/maven-core/3.5.4/maven-core-3.5.4.jar",
+        "name": "org.apache.maven:maven-core:3.5.4",
+        "artifactId": "maven-core"
+    },
+    {
+        "version": "3.5.4",
+        "groupId": "org.apache.maven",
+        "filenameRelativeToRepo": "org/apache/maven/maven-model-builder/3.5.4/maven-model-builder-3.5.4.jar",
+        "name": "org.apache.maven:maven-model-builder:3.5.4",
+        "artifactId": "maven-model-builder"
+    },
+    {
+        "version": "3.5.4",
+        "groupId": "org.apache.maven",
+        "filenameRelativeToRepo": "org/apache/maven/maven-model/3.5.4/maven-model-3.5.4.jar",
+        "name": "org.apache.maven:maven-model:3.5.4",
+        "artifactId": "maven-model"
+    },
+    {
+        "version": "3.5.4",
+        "groupId": "org.apache.maven",
+        "filenameRelativeToRepo": "org/apache/maven/maven-plugin-api/3.5.4/maven-plugin-api-3.5.4.jar",
+        "name": "org.apache.maven:maven-plugin-api:3.5.4",
+        "artifactId": "maven-plugin-api"
+    },
+    {
+        "version": "3.5.4",
+        "groupId": "org.apache.maven",
+        "filenameRelativeToRepo": "org/apache/maven/maven-repository-metadata/3.5.4/maven-repository-metadata-3.5.4.jar",
+        "name": "org.apache.maven:maven-repository-metadata:3.5.4",
+        "artifactId": "maven-repository-metadata"
+    },
+    {
+        "version": "3.5.4",
+        "groupId": "org.apache.maven",
+        "filenameRelativeToRepo": "org/apache/maven/maven-resolver-provider/3.5.4/maven-resolver-provider-3.5.4.jar",
+        "name": "org.apache.maven:maven-resolver-provider:3.5.4",
+        "artifactId": "maven-resolver-provider"
+    },
+    {
+        "version": "3.5.4",
+        "groupId": "org.apache.maven",
+        "filenameRelativeToRepo": "org/apache/maven/maven-settings-builder/3.5.4/maven-settings-builder-3.5.4.jar",
+        "name": "org.apache.maven:maven-settings-builder:3.5.4",
+        "artifactId": "maven-settings-builder"
+    },
+    {
+        "version": "3.5.4",
+        "groupId": "org.apache.maven",
+        "filenameRelativeToRepo": "org/apache/maven/maven-settings/3.5.4/maven-settings-3.5.4.jar",
+        "name": "org.apache.maven:maven-settings:3.5.4",
+        "artifactId": "maven-settings"
     },
     {
         "version": "2.5.2",
         "groupId": "org.codehaus.plexus",
         "filenameRelativeToRepo": "org/codehaus/plexus/plexus-classworlds/2.5.2/plexus-classworlds-2.5.2.jar",
-        "scope": "compile",
         "name": "org.codehaus.plexus:plexus-classworlds:2.5.2",
         "artifactId": "plexus-classworlds"
     },
@@ -235,16 +171,49 @@
         "version": "1.7.1",
         "groupId": "org.codehaus.plexus",
         "filenameRelativeToRepo": "org/codehaus/plexus/plexus-component-annotations/1.7.1/plexus-component-annotations-1.7.1.jar",
-        "scope": "compile",
         "name": "org.codehaus.plexus:plexus-component-annotations:1.7.1",
         "artifactId": "plexus-component-annotations"
     },
     {
-        "version": "3.5",
-        "groupId": "org.apache.commons",
-        "filenameRelativeToRepo": "org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar",
-        "scope": "compile",
-        "name": "org.apache.commons:commons-lang3:3.5",
-        "artifactId": "commons-lang3"
+        "version": "1.24",
+        "groupId": "org.codehaus.plexus",
+        "filenameRelativeToRepo": "org/codehaus/plexus/plexus-interpolation/1.24/plexus-interpolation-1.24.jar",
+        "name": "org.codehaus.plexus:plexus-interpolation:1.24",
+        "artifactId": "plexus-interpolation"
+    },
+    {
+        "version": "3.1.0",
+        "groupId": "org.codehaus.plexus",
+        "filenameRelativeToRepo": "org/codehaus/plexus/plexus-utils/3.1.0/plexus-utils-3.1.0.jar",
+        "name": "org.codehaus.plexus:plexus-utils:3.1.0",
+        "artifactId": "plexus-utils"
+    },
+    {
+        "version": "0.3.3",
+        "groupId": "org.eclipse.sisu",
+        "filenameRelativeToRepo": "org/eclipse/sisu/org.eclipse.sisu.inject/0.3.3/org.eclipse.sisu.inject-0.3.3.jar",
+        "name": "org.eclipse.sisu:org.eclipse.sisu.inject:0.3.3",
+        "artifactId": "org.eclipse.sisu.inject"
+    },
+    {
+        "version": "0.3.3",
+        "groupId": "org.eclipse.sisu",
+        "filenameRelativeToRepo": "org/eclipse/sisu/org.eclipse.sisu.plexus/0.3.3/org.eclipse.sisu.plexus-0.3.3.jar",
+        "name": "org.eclipse.sisu:org.eclipse.sisu.plexus:0.3.3",
+        "artifactId": "org.eclipse.sisu.plexus"
+    },
+    {
+        "version": "1.7",
+        "groupId": "org.sonatype.plexus",
+        "filenameRelativeToRepo": "org/sonatype/plexus/plexus-cipher/1.7/plexus-cipher-1.7.jar",
+        "name": "org.sonatype.plexus:plexus-cipher:1.7",
+        "artifactId": "plexus-cipher"
+    },
+    {
+        "version": "1.4",
+        "groupId": "org.sonatype.plexus",
+        "filenameRelativeToRepo": "org/sonatype/plexus/plexus-sec-dispatcher/1.4/plexus-sec-dispatcher-1.4.jar",
+        "name": "org.sonatype.plexus:plexus-sec-dispatcher:1.4",
+        "artifactId": "plexus-sec-dispatcher"
     }
 ]

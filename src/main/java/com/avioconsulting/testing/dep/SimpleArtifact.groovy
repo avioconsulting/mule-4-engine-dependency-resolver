@@ -1,21 +1,22 @@
 package com.avioconsulting.testing.dep
 
 import groovy.transform.Immutable
+import org.eclipse.aether.artifact.Artifact
 
 import java.nio.file.Path
 
 @Immutable
 class SimpleArtifact {
-    String name, groupId, artifactId, version, filenameRelativeToRepo, scope
+    String name, groupId, artifactId, version, filenameRelativeToRepo
 
-    static SimpleArtifact fromComplete(CompleteArtifact artifact,
-                                       Path repoDirectory) {
-        def path = repoDirectory.relativize(new File(artifact.filename).toPath()).toString()
-        new SimpleArtifact(artifact.name,
+    static SimpleArtifact fromComplete(Artifact artifact,
+                                       String ourKey,
+                                       File repoDirectory) {
+        def path = repoDirectory.toPath().relativize(artifact.file.toPath()).toString()
+        new SimpleArtifact(ourKey,
                            artifact.groupId,
                            artifact.artifactId,
                            artifact.version,
-                           path,
-                           artifact.scope)
+                           path)
     }
 }

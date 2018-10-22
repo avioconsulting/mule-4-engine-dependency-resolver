@@ -25,9 +25,6 @@ class DepResolverMojo extends
     @Parameter(required = true, defaultValue = 'dependencies.json')
     private String outputJsonFile
 
-    @Parameter(required = false, property = 'resolve.dependency.graph.json.file')
-    private String dependencyGraphJsonFile
-
     @Parameter(required = true,
             property = 'resolve.dependencies.comma.separated',
             defaultValue = 'com.mulesoft.mule.distributions:mule-runtime-impl-bom:${app.runtime},org.mule.distributions:mule-module-embedded-impl:${app.runtime}')
@@ -50,63 +47,36 @@ class DepResolverMojo extends
         this.requestedDependenciesCsv.split(',')
     }
 
-    Map<String, CompleteArtifact> getDependencyMap(List<DependencyNode> artifacts,
-                                                   Map<String, CompleteArtifact> results = [:]) {
-        artifacts.each { node ->
+    List<SimpleArtifact> getDependencyList(List<DependencyNode> artifacts,
+                                           File repoDirectory) {
+//        artifacts.each { node ->
+//            def artifact = node.artifact
+//            def ourKey = getKey(artifact)
+//            getDependencyList(node.children,
+//                              repoDirectory,
+//                              results)
+//            def file = artifact.file
+//            assert file: "No filename looked up for ${artifact}"
+//            results[ourKey] = SimpleArtifact.fromComplete(artifact,
+//                                                          ourKey,
+//                                                          repoDirectory)
+//        }
+        def results = artifacts.collect { node ->
             def artifact = node.artifact
-            def ourKey = getKey(artifact)
-            getDependencyMap(node.children,
-                             results)
-            def dependencyKeys = node.children.collect { childNode ->
-                getKey(childNode.artifact)
-            }
             def file = artifact.file
             assert file: "No filename looked up for ${artifact}"
-            results[ourKey] = new CompleteArtifact(ourKey,
-                                                   artifact.groupId,
-                                                   artifact.artifactId,
-                                                   artifact.version,
-                                                   file.absolutePath,
-                                                   'compile',
-                                                   dependencyKeys)
-        }
-        this.sortOutput ? results.sort() : results
+            def us = SimpleArtifact.fromComplete(artifact,
+                                                 getKey(artifact),
+                                                 repoDirectory)
+            def kids = getDependencyList(node.children,
+                                         repoDirectory)
+            kids << us
+        }.flatten() as List<SimpleArtifact>
+        this.sortOutput ? results.sort { artifact -> artifact.name } : results
     }
 
     private static String getKey(Artifact artifact) {
         "${artifact.groupId}:${artifact.artifactId}:${artifact.version}"
-    }
-
-    List<SimpleArtifact> flattenOurDependencyGraph(Map<String, CompleteArtifact> dependencyGraph,
-                                                   List<String> desiredDependencies,
-                                                   String repoPath) {
-        def repo = new File(repoPath).toPath()
-        desiredDependencies.collect { desiredDependency ->
-            def list = flattenDependencies(desiredDependency,
-                                           dependencyGraph)
-            list.collect { dep ->
-                SimpleArtifact.fromComplete(dep,
-                                            repo)
-            }
-        }.flatten().unique()
-    }
-
-    private List<CompleteArtifact> flattenDependencies(String key,
-                                                       Map<String, CompleteArtifact> dependencyGraph,
-                                                       Map<String, CompleteArtifact> totals = [:],
-                                                       boolean recurse = false) {
-        def root = dependencyGraph[key]
-        assert root: "Unable to find expected key ${key} in ${dependencyGraph}"
-        totals[key] = root
-        root.dependencies.each { depKey ->
-            if (!totals.containsKey(depKey)) {
-                flattenDependencies(depKey,
-                                    dependencyGraph,
-                                    totals,
-                                    true)
-            }
-        }
-        recurse ? null : totals.values().toList()
     }
 
     private List<DependencyNode> collectDependencies() {
@@ -142,20 +112,12 @@ class DepResolverMojo extends
     void execute() throws MojoExecutionException, MojoFailureException {
         log.info "Figuring out dependencies for ${this.requestedDependencies}"
         def dependencyNodes = collectDependencies()
-        def dependencyGraph = getDependencyMap(dependencyNodes)
-        if (this.dependencyGraphJsonFile) {
-            def depFile = getOutputFile(dependencyGraphJsonFile)
-            log.info "Writing dependency graph to ${depFile}"
-            writePrettyJson(dependencyGraph,
-                            depFile)
-
-        }
-        def resolved = flattenOurDependencyGraph(dependencyGraph,
-                                                 this.requestedDependencies,
-                                                 repoSession.localRepository.basedir.absolutePath)
+        log.info 'Getting list'
+        def list = getDependencyList(dependencyNodes,
+                                     repoSession.localRepository.basedir)
         def file = getOutputFile(outputJsonFile)
         log.info "Done, now writing JSON to ${file}"
-        writePrettyJson(resolved,
+        writePrettyJson(list,
                         file)
     }
 }
