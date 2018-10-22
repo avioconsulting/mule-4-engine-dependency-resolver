@@ -13,17 +13,14 @@ import org.apache.maven.plugin.MojoFailureException
 import org.apache.maven.plugins.annotations.Component
 import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
-import org.apache.maven.plugins.annotations.ResolutionScope
 import org.apache.maven.project.MavenProject
 
-@Mojo(name = 'resolve',
-        requiresDependencyResolution = ResolutionScope.TEST,
-        requiresDependencyCollection = ResolutionScope.TEST)
+@Mojo(name = 'resolve')
 class DepResolverMojo extends
         AbstractMojo {
     @Parameter(required = true, defaultValue = 'dependencies.json')
     private String outputJsonFile
-    
+
     @Parameter(required = true, property = 'resolve.dependencies')
     private List<String> requestedDependencies
 
@@ -115,9 +112,9 @@ class DepResolverMojo extends
         recurse ? null : totals.values().toList()
     }
 
-    private def forceDependencyDownload() {
+    private Set<Artifact> forceDependencyDownload() {
         def handler = this.artifactHandlerManager.getArtifactHandler('pom')
-        this.requestedDependencies.each { dependencyStr ->
+        this.requestedDependencies.collect { dependencyStr ->
             def parts = dependencyStr.split(':')
             def groupId = parts[0]
             def artifactId = parts[1]
@@ -135,15 +132,17 @@ class DepResolverMojo extends
             request.remoteRepositories = this.mavenProject.remoteArtifactRepositories
             request.artifact = artifact
             def result = this.resolver.resolve(request)
-            assert result.artifacts.size() == 1: 'Expected 1 artifact to be resolved!'
-        }
+            def resultList = result.artifacts
+            assert resultList && resultList.size() == 1: "Expected artifact ${dependencyStr} to be resolved!"
+            resultList[0]
+        }.toSet()
     }
 
     @Override
     void execute() throws MojoExecutionException, MojoFailureException {
-        forceDependencyDownload()
+        def artifacts = forceDependencyDownload()
         log.info "Figuring out dependencies for ${this.requestedDependencies}"
-        def dependencyGraph = getDependencyMap(mavenProject.artifacts)
+        def dependencyGraph = getDependencyMap(artifacts)
         def resolved = resolveDependencies(dependencyGraph,
                                            this.requestedDependencies,
                                            this.localRepository.basedir)
