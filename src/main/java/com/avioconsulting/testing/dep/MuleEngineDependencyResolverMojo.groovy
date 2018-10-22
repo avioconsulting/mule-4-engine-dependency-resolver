@@ -1,6 +1,7 @@
 package com.avioconsulting.testing.dep
 
 import groovy.json.JsonOutput
+import org.apache.maven.model.Resource
 import org.apache.maven.plugin.AbstractMojo
 import org.apache.maven.plugin.MojoExecutionException
 import org.apache.maven.plugin.MojoFailureException
@@ -21,9 +22,9 @@ import org.eclipse.aether.util.filter.DependencyFilterUtils
 @Mojo(name = 'resolve')
 class MuleEngineDependencyResolverMojo extends AbstractMojo {
     @Parameter(required = true,
-            defaultValue = '${project.build.testOutputDirectory}/mule4_embedded_engine/dependencies.json',
+            defaultValue = 'mule4_dependencies.json',
             property = 'resolve.outputFile')
-    private File outputJsonFile
+    private String outputJsonFilename
 
     @Parameter(required = true,
             property = 'resolve.dependencies.comma.separated',
@@ -88,6 +89,18 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
         log.info 'Getting list'
         def list = getDependencyList(dependencyNodes,
                                      repoSession.localRepository.basedir)
+        def outputJsonFile = new File(outputJsonFilename)
+        if (!outputJsonFile.absolute) {
+            def path = new File(mavenProject.build.directory,
+                                'generated-test-sources/META-INF')
+            outputJsonFile = new File(path,
+                                      outputJsonFilename)
+            def resource = new Resource()
+            resource.setDirectory(path.absolutePath)
+            resource.addInclude(outputJsonFilename)
+            log.info "Added test resource ${resource}"
+            mavenProject.addTestResource(resource)
+        }
         outputJsonFile.parentFile.mkdirs()
         log.info "Done, now writing JSON to ${outputJsonFile}"
         writePrettyJson(list,
