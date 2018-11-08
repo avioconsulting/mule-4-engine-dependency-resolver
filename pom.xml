@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.avioconsulting.mule</groupId>
     <artifactId>dependency-resolver-maven-plugin</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>maven-plugin</packaging>
 
     <properties>
@@ -67,7 +67,10 @@
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-core</artifactId>
-            <version>3.5.4</version>
+            <!-- Mule Studio 7, in conjunction with its tooling instance, uses Maven 3.3.9. If we
+             use a newer Maven version here, then an Aether exception will result when trying
+             to use the tooling instance. -->
+            <version>3.3.9</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
