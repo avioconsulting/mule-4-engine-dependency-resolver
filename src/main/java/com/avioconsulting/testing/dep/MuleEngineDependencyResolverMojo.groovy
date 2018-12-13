@@ -44,16 +44,13 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
             readonly = true)
     private RepositorySystemSession repoSession
 
-    List<SimpleArtifact> getDependencyList(List<DependencyNode> artifacts,
-                                           File repoDirectory) {
+    List<SimpleArtifact> getDependencyList(List<DependencyNode> artifacts) {
         def results = artifacts.collect { node ->
             def artifact = node.artifact
             def file = artifact.file
             assert file: "No filename looked up for ${artifact}"
-            def us = SimpleArtifact.fromComplete(artifact,
-                                                 repoDirectory)
-            def kids = getDependencyList(node.children,
-                                         repoDirectory)
+            def us = SimpleArtifact.fromComplete(artifact)
+            def kids = getDependencyList(node.children)
             kids << us
         }.flatten() as List<SimpleArtifact>
         this.sortOutput ? results.sort { artifact -> "${artifact.groupId}:${artifact.artifactId}" } : results
@@ -87,8 +84,7 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
         log.info "Figuring out dependencies for ${this.requestedDependencies}"
         def dependencyNodes = collectDependencies()
         log.info 'Getting list'
-        def list = getDependencyList(dependencyNodes,
-                                     repoSession.localRepository.basedir)
+        def list = getDependencyList(dependencyNodes)
         def outputJsonFile = new File(outputJsonFilename)
         if (!outputJsonFile.absolute) {
             def path = new File(mavenProject.build.directory,

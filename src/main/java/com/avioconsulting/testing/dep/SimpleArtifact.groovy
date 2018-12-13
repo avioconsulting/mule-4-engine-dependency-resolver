@@ -7,14 +7,12 @@ import java.nio.file.Path
 
 @Immutable
 class SimpleArtifact {
-    String groupId, artifactId, version, filenameRelativeToRepo
+    String groupId, artifactId, version, filename
 
-    static SimpleArtifact fromComplete(Artifact artifact,
-                                       File repoDirectory) {
-        def path = repoDirectory.toPath().relativize(artifact.file.toPath()).toString()
+    static SimpleArtifact fromComplete(Artifact artifact) {
         new SimpleArtifact(artifact.groupId,
                            artifact.artifactId,
                            artifact.version,
-                           path)
+                           artifact.file.absolutePath)
     }
 }

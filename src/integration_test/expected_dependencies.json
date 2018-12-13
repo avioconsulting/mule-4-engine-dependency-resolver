@@ -1,188 +1,188 @@
 [
     {
+        "filename": "/Users/brady/.m2/repository/aopalliance/aopalliance/1.0/aopalliance-1.0.jar",
         "version": "1.0",
         "groupId": "aopalliance",
-        "filenameRelativeToRepo": "aopalliance/aopalliance/1.0/aopalliance-1.0.jar",
         "artifactId": "aopalliance"
     },
     {
+        "filename": "/Users/brady/.m2/repository/com/google/guava/guava/20.0/guava-20.0.jar",
         "version": "20.0",
         "groupId": "com.google.guava",
-        "filenameRelativeToRepo": "com/google/guava/guava/20.0/guava-20.0.jar",
         "artifactId": "guava"
     },
     {
+        "filename": "/Users/brady/.m2/repository/com/google/inject/guice/4.2.0/guice-4.2.0-no_aop.jar",
         "version": "4.2.0",
         "groupId": "com.google.inject",
-        "filenameRelativeToRepo": "com/google/inject/guice/4.2.0/guice-4.2.0-no_aop.jar",
         "artifactId": "guice"
     },
     {
+        "filename": "/Users/brady/.m2/repository/commons-io/commons-io/2.5/commons-io-2.5.jar",
         "version": "2.5",
         "groupId": "commons-io",
-        "filenameRelativeToRepo": "commons-io/commons-io/2.5/commons-io-2.5.jar",
         "artifactId": "commons-io"
     },
     {
+        "filename": "/Users/brady/.m2/repository/javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar",
         "version": "1.0",
         "groupId": "javax.annotation",
-        "filenameRelativeToRepo": "javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar",
         "artifactId": "jsr250-api"
     },
     {
+        "filename": "/Users/brady/.m2/repository/javax/enterprise/cdi-api/1.0/cdi-api-1.0.jar",
         "version": "1.0",
         "groupId": "javax.enterprise",
-        "filenameRelativeToRepo": "javax/enterprise/cdi-api/1.0/cdi-api-1.0.jar",
         "artifactId": "cdi-api"
     },
     {
+        "filename": "/Users/brady/.m2/repository/javax/inject/javax.inject/1/javax.inject-1.jar",
         "version": "1",
         "groupId": "javax.inject",
-        "filenameRelativeToRepo": "javax/inject/javax.inject/1/javax.inject-1.jar",
         "artifactId": "javax.inject"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar",
         "version": "3.5",
         "groupId": "org.apache.commons",
-        "filenameRelativeToRepo": "org/apache/commons/commons-lang3/3.5/commons-lang3-3.5.jar",
         "artifactId": "commons-lang3"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/resolver/maven-resolver-api/1.1.1/maven-resolver-api-1.1.1.jar",
         "version": "1.1.1",
         "groupId": "org.apache.maven.resolver",
-        "filenameRelativeToRepo": "org/apache/maven/resolver/maven-resolver-api/1.1.1/maven-resolver-api-1.1.1.jar",
         "artifactId": "maven-resolver-api"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/resolver/maven-resolver-impl/1.1.1/maven-resolver-impl-1.1.1.jar",
         "version": "1.1.1",
         "groupId": "org.apache.maven.resolver",
-        "filenameRelativeToRepo": "org/apache/maven/resolver/maven-resolver-impl/1.1.1/maven-resolver-impl-1.1.1.jar",
         "artifactId": "maven-resolver-impl"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/resolver/maven-resolver-spi/1.1.1/maven-resolver-spi-1.1.1.jar",
         "version": "1.1.1",
         "groupId": "org.apache.maven.resolver",
-        "filenameRelativeToRepo": "org/apache/maven/resolver/maven-resolver-spi/1.1.1/maven-resolver-spi-1.1.1.jar",
         "artifactId": "maven-resolver-spi"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/resolver/maven-resolver-util/1.1.1/maven-resolver-util-1.1.1.jar",
         "version": "1.1.1",
         "groupId": "org.apache.maven.resolver",
-        "filenameRelativeToRepo": "org/apache/maven/resolver/maven-resolver-util/1.1.1/maven-resolver-util-1.1.1.jar",
         "artifactId": "maven-resolver-util"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/shared/maven-shared-utils/3.2.1/maven-shared-utils-3.2.1.jar",
         "version": "3.2.1",
         "groupId": "org.apache.maven.shared",
-        "filenameRelativeToRepo": "org/apache/maven/shared/maven-shared-utils/3.2.1/maven-shared-utils-3.2.1.jar",
         "artifactId": "maven-shared-utils"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/maven-artifact/3.5.4/maven-artifact-3.5.4.jar",
         "version": "3.5.4",
         "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-artifact/3.5.4/maven-artifact-3.5.4.jar",
         "artifactId": "maven-artifact"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/maven-builder-support/3.5.4/maven-builder-support-3.5.4.jar",
         "version": "3.5.4",
         "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-builder-support/3.5.4/maven-builder-support-3.5.4.jar",
         "artifactId": "maven-builder-support"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/maven-core/3.5.4/maven-core-3.5.4.jar",
         "version": "3.5.4",
         "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-core/3.5.4/maven-core-3.5.4.jar",
         "artifactId": "maven-core"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/maven-model/3.5.4/maven-model-3.5.4.jar",
         "version": "3.5.4",
         "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-model/3.5.4/maven-model-3.5.4.jar",
         "artifactId": "maven-model"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/maven-model-builder/3.5.4/maven-model-builder-3.5.4.jar",
         "version": "3.5.4",
         "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-model-builder/3.5.4/maven-model-builder-3.5.4.jar",
         "artifactId": "maven-model-builder"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/maven-plugin-api/3.5.4/maven-plugin-api-3.5.4.jar",
         "version": "3.5.4",
         "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-plugin-api/3.5.4/maven-plugin-api-3.5.4.jar",
         "artifactId": "maven-plugin-api"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/maven-repository-metadata/3.5.4/maven-repository-metadata-3.5.4.jar",
         "version": "3.5.4",
         "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-repository-metadata/3.5.4/maven-repository-metadata-3.5.4.jar",
         "artifactId": "maven-repository-metadata"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/maven-resolver-provider/3.5.4/maven-resolver-provider-3.5.4.jar",
         "version": "3.5.4",
         "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-resolver-provider/3.5.4/maven-resolver-provider-3.5.4.jar",
         "artifactId": "maven-resolver-provider"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/maven-settings/3.5.4/maven-settings-3.5.4.jar",
         "version": "3.5.4",
         "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-settings/3.5.4/maven-settings-3.5.4.jar",
         "artifactId": "maven-settings"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/apache/maven/maven-settings-builder/3.5.4/maven-settings-builder-3.5.4.jar",
         "version": "3.5.4",
         "groupId": "org.apache.maven",
-        "filenameRelativeToRepo": "org/apache/maven/maven-settings-builder/3.5.4/maven-settings-builder-3.5.4.jar",
         "artifactId": "maven-settings-builder"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/codehaus/plexus/plexus-classworlds/2.5.2/plexus-classworlds-2.5.2.jar",
         "version": "2.5.2",
         "groupId": "org.codehaus.plexus",
-        "filenameRelativeToRepo": "org/codehaus/plexus/plexus-classworlds/2.5.2/plexus-classworlds-2.5.2.jar",
         "artifactId": "plexus-classworlds"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/codehaus/plexus/plexus-component-annotations/1.7.1/plexus-component-annotations-1.7.1.jar",
         "version": "1.7.1",
         "groupId": "org.codehaus.plexus",
-        "filenameRelativeToRepo": "org/codehaus/plexus/plexus-component-annotations/1.7.1/plexus-component-annotations-1.7.1.jar",
         "artifactId": "plexus-component-annotations"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/codehaus/plexus/plexus-interpolation/1.24/plexus-interpolation-1.24.jar",
         "version": "1.24",
         "groupId": "org.codehaus.plexus",
-        "filenameRelativeToRepo": "org/codehaus/plexus/plexus-interpolation/1.24/plexus-interpolation-1.24.jar",
         "artifactId": "plexus-interpolation"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/codehaus/plexus/plexus-utils/3.1.0/plexus-utils-3.1.0.jar",
         "version": "3.1.0",
         "groupId": "org.codehaus.plexus",
-        "filenameRelativeToRepo": "org/codehaus/plexus/plexus-utils/3.1.0/plexus-utils-3.1.0.jar",
         "artifactId": "plexus-utils"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/eclipse/sisu/org.eclipse.sisu.inject/0.3.3/org.eclipse.sisu.inject-0.3.3.jar",
         "version": "0.3.3",
         "groupId": "org.eclipse.sisu",
-        "filenameRelativeToRepo": "org/eclipse/sisu/org.eclipse.sisu.inject/0.3.3/org.eclipse.sisu.inject-0.3.3.jar",
         "artifactId": "org.eclipse.sisu.inject"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/eclipse/sisu/org.eclipse.sisu.plexus/0.3.3/org.eclipse.sisu.plexus-0.3.3.jar",
         "version": "0.3.3",
         "groupId": "org.eclipse.sisu",
-        "filenameRelativeToRepo": "org/eclipse/sisu/org.eclipse.sisu.plexus/0.3.3/org.eclipse.sisu.plexus-0.3.3.jar",
         "artifactId": "org.eclipse.sisu.plexus"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/sonatype/plexus/plexus-cipher/1.7/plexus-cipher-1.7.jar",
         "version": "1.7",
         "groupId": "org.sonatype.plexus",
-        "filenameRelativeToRepo": "org/sonatype/plexus/plexus-cipher/1.7/plexus-cipher-1.7.jar",
         "artifactId": "plexus-cipher"
     },
     {
+        "filename": "/Users/brady/.m2/repository/org/sonatype/plexus/plexus-sec-dispatcher/1.4/plexus-sec-dispatcher-1.4.jar",
         "version": "1.4",
         "groupId": "org.sonatype.plexus",
-        "filenameRelativeToRepo": "org/sonatype/plexus/plexus-sec-dispatcher/1.4/plexus-sec-dispatcher-1.4.jar",
         "artifactId": "plexus-sec-dispatcher"
     }
 ]
