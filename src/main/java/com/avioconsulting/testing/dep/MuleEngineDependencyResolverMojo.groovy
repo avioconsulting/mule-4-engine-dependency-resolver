@@ -31,6 +31,9 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
             defaultValue = 'com.mulesoft.mule.distributions:mule-runtime-impl-bom:${app.runtime},org.mule.distributions:mule-module-embedded-impl:${app.runtime}')
     private List<String> requestedDependencies
 
+    @Parameter(property = 'resolve.patches.comma.separated')
+    private List<String> mulePatches
+
     @Parameter(property = 'resolve.sort.output')
     private boolean sortOutput
 
@@ -56,8 +59,8 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
         this.sortOutput ? results.sort { artifact -> "${artifact.groupId}:${artifact.artifactId}" } : results
     }
 
-    private List<DependencyNode> collectDependencies() {
-        this.requestedDependencies.collect { dependencyStr ->
+    private List<DependencyNode> collectDependencies(List<String> dependencies) {
+        dependencies.collect { dependencyStr ->
             def artifact = new DefaultArtifact(dependencyStr)
             log.info "Resolving dependency ${artifact}"
             def collectRequest = new CollectRequest()
@@ -82,7 +85,11 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
     @Override
     void execute() throws MojoExecutionException, MojoFailureException {
         log.info "Figuring out dependencies for ${this.requestedDependencies}"
-        def dependencyNodes = collectDependencies()
+        def dependencyNodes = collectDependencies(this.requestedDependencies)
+        if (this.mulePatches) {
+            log.info "Adding patches ${this.mulePatches}"
+            dependencyNodes.addAll(collectDependencies(this.mulePatches))
+        }
         log.info 'Getting list'
         def list = getDependencyList(dependencyNodes)
         def outputJsonFile = new File(outputJsonFilename)

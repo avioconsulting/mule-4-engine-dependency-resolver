@@ -24,6 +24,12 @@
         "artifactId": "commons-io"
     },
     {
+        "filename": "/Users/brady/.m2/repository/commons-io/commons-io/1.3.2/commons-io-1.3.2.jar",
+        "version": "1.3.2",
+        "groupId": "commons-io",
+        "artifactId": "commons-io"
+    },
+    {
         "filename": "/Users/brady/.m2/repository/javax/annotation/jsr250-api/1.0/jsr250-api-1.0.jar",
         "version": "1.0",
         "groupId": "javax.annotation",
