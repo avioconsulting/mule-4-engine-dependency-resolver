@@ -1,93 +1,38 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.avioconsulting.mule</groupId>
-    <artifactId>dependency-resolver-maven-plugin</artifactId>
-    <version>1.0.3</version>
-    <packaging>maven-plugin</packaging>
+    <artifactId>dep-parent-project</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
 
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <groovy.compiler.version>2.4.15</groovy.compiler.version>
-    </properties>
-
-    <distributionManagement>
-        <repository>
-            <id>avio-releases</id>
-            <name>AVIO Releases Repository</name>
-            <url>https://devops.avioconsulting.com/nexus/repository/avio-releases/</url>
-            <layout>default</layout>
-        </repository>
-    </distributionManagement>
+    <modules>
+        <module>plugin</module>
+        <module>integration_test</module>
+    </modules>
 
     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.0.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <!-- parent project is only used during the build process -->
+                    <skip>true</skip>
+                </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
                 <configuration>
-                    <compilerId>groovy-eclipse-compiler</compilerId>
+                    <!-- parent project is only used during the build process -->
+                    <skip>true</skip>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>groovy-eclipse-compiler</artifactId>
-                        <version>3.0.0-01</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>org.codehaus.groovy</groupId>
-                        <artifactId>groovy-eclipse-batch</artifactId>
-                        <version>${groovy.compiler.version}-02</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.maven.plugin-tools</groupId>
-            <artifactId>maven-plugin-annotations</artifactId>
-            <version>3.5</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-core</artifactId>
-            <!-- Mule Studio 7, in conjunction with its tooling instance, uses Maven 3.3.9. If we
-             use a newer Maven version here, then an Aether exception will result when trying
-             to use the tooling instance. -->
-            <version>3.3.9</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>${groovy.compiler.version}</version>
-        </dependency>
-    </dependencies>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>groovy</id>
-            <name>Groovy</name>
-            <layout>default</layout>
-            <url>https://dl.bintray.com/groovy/maven/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 </project>
