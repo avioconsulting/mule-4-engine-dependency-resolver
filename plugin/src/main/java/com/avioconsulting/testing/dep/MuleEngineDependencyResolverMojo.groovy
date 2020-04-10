@@ -34,7 +34,7 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
     @Parameter(required = true,
             property = 'resolve.dependencies.comma.separated',
             defaultValue = 'com.mulesoft.mule.distributions:mule-runtime-impl-bom:${app.runtime},org.mule.distributions:mule-module-embedded-impl:${app.runtime}')
-    private List<String> requestedDependencies
+    private List<String> requestedEngineDependencies
 
     @Parameter(property = 'resolve.patches.comma.separated')
     private List<String> mulePatches
@@ -89,23 +89,47 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
 
     @Override
     void execute() throws MojoExecutionException, MojoFailureException {
-        log.info "Figuring out dependencies for ${this.requestedDependencies}"
-        def dependencyNodes = collectDependencies(this.requestedDependencies)
-        if (this.mulePatches) {
+        log.info 'Writing engine dependencies'
+        def engineDeps = processEngineOrDwDependencies(this.requestedEngineDependencies,
+                                                       true,
+                                                       this.engineOutputJsonFilename)
+        def weaveVersion = engineDeps.find { d ->
+            d.groupId == 'org.mule.weave' &&
+                    d.artifactId == 'core'
+        }.version
+        log.info "Done writing engine dependencies, now writing DataWeave ${weaveVersion} dependencies"
+        def dwDeps = [
+                "org.mule.weave:debugger:${weaveVersion}",
+                "org.mule.weave:runtime:${weaveVersion}",
+                "org.mule.weave:core-modules:${weaveVersion}",
+                'org.springframework:spring-core:5.2.1.RELEASE'
+        ]
+        processEngineOrDwDependencies(dwDeps,
+                                      false,
+                                      dataWeaveOutputJsonFileName)
+        log.info 'Done with DataWeave dependencies'
+    }
+
+    List<SimpleArtifact> processEngineOrDwDependencies(List<String> requestedDependencies,
+                                                       boolean addPatches,
+                                                       String outputFileName) {
+        log.info "Figuring out dependencies for ${requestedDependencies}"
+        def dependencyNodes = collectDependencies(requestedDependencies)
+        if (addPatches && this.mulePatches) {
             log.info "Adding patches ${this.mulePatches}"
             dependencyNodes.addAll(collectDependencies(this.mulePatches))
         }
         log.info 'Getting list'
         def list = getDependencyList(dependencyNodes)
-        def outputJsonFile = new File(engineOutputJsonFilename)
+        def outputJsonFile = new File(outputFileName)
         if (!outputJsonFile.absolute) {
             def path = new File(mavenProject.build.directory,
                                 'generated-test-sources/META-INF')
             outputJsonFile = new File(path,
-                                      engineOutputJsonFilename)
+                                      outputFileName)
             def resource = new Resource()
             resource.setDirectory(path.absolutePath)
-            resource.addInclude(engineOutputJsonFilename)
+            resource.addInclude(outputFileName)
             log.info "Added test resource ${resource}"
             mavenProject.addTestResource(resource)
         }
@@ -113,5 +137,6 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
         log.info "Done, now writing JSON to ${outputJsonFile}"
         writePrettyJson(list,
                         outputJsonFile)
+        return list
     }
 }
