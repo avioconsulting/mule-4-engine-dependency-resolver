@@ -24,7 +24,12 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
     @Parameter(required = true,
             defaultValue = 'mule4_dependencies.json',
             property = 'resolve.outputFile')
-    private String outputJsonFilename
+    private String engineOutputJsonFilename
+
+    @Parameter(required = true,
+            defaultValue = 'dw_dependencies.json',
+            property = 'resolve.dw.outputFile')
+    private String dataWeaveOutputJsonFileName
 
     @Parameter(required = true,
             property = 'resolve.dependencies.comma.separated',
@@ -92,15 +97,15 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
         }
         log.info 'Getting list'
         def list = getDependencyList(dependencyNodes)
-        def outputJsonFile = new File(outputJsonFilename)
+        def outputJsonFile = new File(engineOutputJsonFilename)
         if (!outputJsonFile.absolute) {
             def path = new File(mavenProject.build.directory,
                                 'generated-test-sources/META-INF')
             outputJsonFile = new File(path,
-                                      outputJsonFilename)
+                                      engineOutputJsonFilename)
             def resource = new Resource()
             resource.setDirectory(path.absolutePath)
-            resource.addInclude(outputJsonFilename)
+            resource.addInclude(engineOutputJsonFilename)
             log.info "Added test resource ${resource}"
             mavenProject.addTestResource(resource)
         }
