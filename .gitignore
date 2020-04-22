@@ -3,6 +3,5 @@
 target
 /catalog
 /.mule
-rebasepush.sh
 /temporary_repo
 /src/integration_test/target
