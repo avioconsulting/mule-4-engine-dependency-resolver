@@ -1,3 +1,6 @@
+# 1.0.5
+* Now that testing framework has decoupled more from Maven, preserve the repository directory with a new goal since Studio wipes it out w/ a file edit
+
 # 1.0.3
 * Allow Mule patches to be supplied
 
