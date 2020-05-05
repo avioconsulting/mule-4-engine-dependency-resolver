@@ -5,16 +5,26 @@
     <groupId>com.avioconsulting.mule</groupId>
     <artifactId>dependency-resolver-maven-plugin-test</artifactId>
     <version>1.0.4</version>
+    <packaging>mule-application</packaging>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <groovy.compiler.version>2.4.15</groovy.compiler.version>
         <app.runtime>4.2.2</app.runtime>
+        <mule.maven.plugin.version>3.3.5</mule.maven.plugin.version>
     </properties>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.mule.tools.maven</groupId>
+                <artifactId>mule-maven-plugin</artifactId>
+                <version>${mule.maven.plugin.version}</version>
+                <extensions>true</extensions>
+                <configuration>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
@@ -64,16 +74,64 @@
                         </goals>
                         <phase>generate-test-resources</phase>
                     </execution>
+                    <execution>
+                        <id>preserve-repo</id>
+                        <goals>
+                            <goal>preserveRepository</goal>
+                        </goals>
+                        <phase>generate-test-resources</phase>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.mulesoft.modules</groupId>
+            <artifactId>mule-secure-configuration-property-module</artifactId>
+            <version>1.2.1</version>
+            <classifier>mule-plugin</classifier>
+        </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <id>mulesoft-releases</id>
+            <name>MuleSoft Releases Repository</name>
+            <url>https://repository.mulesoft.org/releases/</url>
+            <layout>default</layout>
+        </repository>
+        <!-- for staxutils -->
+        <repository>
+            <id>mulesoft-public</id>
+            <name>Mulesoft public repo</name>
+            <url>https://repository.mulesoft.org/nexus/content/repositories/public</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>avio-mule-ee-releases</id>
+            <name>AVIO MuleEE Releases Repository</name>
+            <url>https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/</url>
+        </repository>
+    </repositories>
+
     <pluginRepositories>
+        <pluginRepository>
+            <id>mulesoft-releases</id>
+            <name>mulesoft release repository</name>
+            <layout>default</layout>
+            <url>https://repository.mulesoft.org/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>avio-releases</id>
+            <name>AVIO Releases Repository</name>
+            <url>https://devops.avioconsulting.com/nexus/repository/avio-releases/</url>
+            <layout>default</layout>
+        </pluginRepository>
         <pluginRepository>
             <id>groovy</id>
             <name>Groovy</name>
