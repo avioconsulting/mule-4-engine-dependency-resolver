@@ -102,6 +102,7 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
                 "org.mule.weave:debugger:${weaveVersion}",
                 "org.mule.weave:runtime:${weaveVersion}",
                 "org.mule.weave:core-modules:${weaveVersion}",
+                "org.mule.weave:java-module:${weaveVersion}",
                 'org.springframework:spring-core:5.2.1.RELEASE'
         ]
         processEngineOrDwDependencies(dwDeps,

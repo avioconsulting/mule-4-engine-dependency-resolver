@@ -1,3 +1,6 @@
+# 1.0.5
+* For Dataweave dependencies, include the Java module dependency since it's available in stock Mule
+
 # 1.0.3
 * Allow Mule patches to be supplied
 
