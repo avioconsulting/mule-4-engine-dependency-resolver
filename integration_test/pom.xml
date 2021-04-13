@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.avioconsulting.mule</groupId>
     <artifactId>dependency-resolver-maven-plugin-test</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -63,22 +63,63 @@
                             <goal>resolve</goal>
                         </goals>
                         <phase>generate-test-resources</phase>
+                        <configuration>
+                            <dataWeaveClasspathDependencies>
+                                <dataWeaveClasspathDependency>org.mongodb:bson:4.2.2</dataWeaveClasspathDependency>
+                            </dataWeaveClasspathDependencies>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
 
-    <dependencies>
-
-    </dependencies>
+    <repositories>
+        <repository>
+            <id>avio-mule-ee-releases</id>
+            <name>AVIO MuleEE Releases Repository</name>
+            <url>https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/</url>
+        </repository>
+        <repository>
+            <id>mulesoft-releases</id>
+            <name>mulesoft release repository</name>
+            <layout>default</layout>
+            <url>https://repository.mulesoft.org/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>groovy</id>
+            <name>Groovy</name>
+            <layout>default</layout>
+            <url>https://groovy.jfrog.io/artifactory/libs-release-local</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <pluginRepositories>
+        <pluginRepository>
+            <id>avio-mule-ee-releases</id>
+            <name>AVIO MuleEE Releases Repository</name>
+            <url>https://devops.avioconsulting.com/nexus/repository/mulesoft-ee-releases/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>mulesoft-releases</id>
+            <name>mulesoft release repository</name>
+            <layout>default</layout>
+            <url>https://repository.mulesoft.org/releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
         <pluginRepository>
             <id>groovy</id>
             <name>Groovy</name>
             <layout>default</layout>
-            <url>https://dl.bintray.com/groovy/maven/</url>
+            <url>https://groovy.jfrog.io/artifactory/libs-release-local</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>

@@ -1,3 +1,6 @@
+# 1.0.6
+* Allow creating a separate file to support DataWeave classpath modification during execution of the DW unit testing framework
+
 # 1.0.5
 * For Dataweave dependencies, include the Java module dependency since it's available in stock Mule
 

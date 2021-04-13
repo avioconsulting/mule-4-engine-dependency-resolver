@@ -22,19 +22,23 @@ import org.eclipse.aether.util.filter.DependencyFilterUtils
 @Mojo(name = 'resolve')
 class MuleEngineDependencyResolverMojo extends AbstractMojo {
     @Parameter(required = true,
-            defaultValue = 'mule4_dependencies.json',
-            property = 'resolve.outputFile')
+            defaultValue = 'mule4_dependencies.json')
     private String engineOutputJsonFilename
 
     @Parameter(required = true,
-            defaultValue = 'dw_dependencies.json',
-            property = 'resolve.dw.outputFile')
+            defaultValue = 'dw_dependencies.json')
     private String dataWeaveOutputJsonFileName
 
     @Parameter(required = true,
-            property = 'resolve.dependencies.comma.separated',
+            defaultValue = 'dw_classpath.json')
+    private String dataWeaveClasspathJsonFileName
+
+    @Parameter(required = true,
             defaultValue = 'com.mulesoft.mule.distributions:mule-runtime-impl-bom:${app.runtime},org.mule.distributions:mule-module-embedded-impl:${app.runtime}')
     private List<String> requestedEngineDependencies
+
+    @Parameter
+    private List<String> dataWeaveClasspathDependencies
 
     @Parameter(property = 'resolve.patches.comma.separated')
     private List<String> mulePatches
@@ -109,6 +113,11 @@ class MuleEngineDependencyResolverMojo extends AbstractMojo {
                                       false,
                                       dataWeaveOutputJsonFileName)
         log.info 'Done with DataWeave dependencies'
+        log.info "Writing classpath dependencies available during DW run: ${this.dataWeaveClasspathDependencies ?: []}"
+        processEngineOrDwDependencies(this.dataWeaveClasspathDependencies,
+                                      false,
+                                      dataWeaveClasspathJsonFileName)
+        log.info 'Done writing DW classpath dependencies'
     }
 
     List<SimpleArtifact> processEngineOrDwDependencies(List<String> requestedDependencies,
