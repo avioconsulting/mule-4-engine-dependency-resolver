@@ -4,13 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.avioconsulting.mule</groupId>
     <artifactId>dependency-resolver-maven-plugin</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7</version>
     <packaging>maven-plugin</packaging>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <groovy.compiler.version>2.4.15</groovy.compiler.version>
+        <groovy.compiler.version>3.0.7</groovy.compiler.version>
+        <maven.plugin.plugin.version>3.6.1</maven.plugin.plugin.version>
     </properties>
 
     <distributionManagement>
@@ -25,6 +26,20 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>${maven.plugin.plugin.version}</version>
+                <configuration>
+                    <!-- We don't want to scan this plugin's dependencies because 1) we're only
+                     exposing our own mojos and 2) the scanner chokes on some of the JSON schema validator libs
+                     -->
+                    <mojoDependencies>
+                        <param>com.avioconsulting.mule:dependency-resolver-maven-plugin</param>
+                    </mojoDependencies>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>3.0.1</version>
                 <executions>
@@ -38,7 +53,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.8.1</version>
                 <configuration>
                     <compilerId>groovy-eclipse-compiler</compilerId>
                 </configuration>
@@ -46,12 +61,12 @@
                     <dependency>
                         <groupId>org.codehaus.groovy</groupId>
                         <artifactId>groovy-eclipse-compiler</artifactId>
-                        <version>3.0.0-01</version>
+                        <version>3.7.0</version>
                     </dependency>
                     <dependency>
                         <groupId>org.codehaus.groovy</groupId>
                         <artifactId>groovy-eclipse-batch</artifactId>
-                        <version>${groovy.compiler.version}-02</version>
+                        <version>${groovy.compiler.version}-03</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -74,7 +89,12 @@
         </dependency>
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
+            <artifactId>groovy</artifactId>
+            <version>${groovy.compiler.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-json</artifactId>
             <version>${groovy.compiler.version}</version>
         </dependency>
     </dependencies>
@@ -84,7 +104,7 @@
             <id>groovy</id>
             <name>Groovy</name>
             <layout>default</layout>
-            <url>https://dl.bintray.com/groovy/maven/</url>
+            <url>https://groovy.jfrog.io/artifactory/libs-release-local</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
