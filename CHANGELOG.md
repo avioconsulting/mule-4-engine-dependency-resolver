@@ -1,3 +1,6 @@
+# 1.0.7
+* Groovy 3 based/get rid of old bintray repo
+
 # 1.0.6
 * Allow creating a separate file to support DataWeave classpath modification during execution of the DW unit testing framework
 
